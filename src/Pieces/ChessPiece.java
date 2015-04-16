@@ -7,7 +7,7 @@ import View.View;
 import java.util.ArrayList;
 
 /**
- * The abstract class representing a chess piece
+ * The abstract class representing a chess piece, shared across all the instances of the chess pieces.
  * Created by luvsandondov on 9/8/14.
  */
 public abstract class ChessPiece {
@@ -18,13 +18,12 @@ public abstract class ChessPiece {
      */
     // 1 = white, 0=black
     private boolean color;
-    //private Movement movement;
-    //private boolean colour;
     // current position of the piece
     private int current_row;
     private int current_col;
     // this refers to the chessBoard it is getting played
     ChessBoard chessBoard;
+
     /**
      * *************************************************************************
      * Constructors
@@ -44,7 +43,7 @@ public abstract class ChessPiece {
         current_row = x;
         current_col = y;
         if (isValidLocation(x, y)) {
-            // initialize the board as well
+            // initialize the piece position in the board.
             chessBoard.ChessBoard[x][y] = this;
         }
     }
@@ -68,7 +67,6 @@ public abstract class ChessPiece {
      * Public functions
      * *****************************************************************************
      */
-    // get the piece name
     public boolean getColor() {
         return this.color;
     }
@@ -87,12 +85,12 @@ public abstract class ChessPiece {
     * set the new position of the piece, useful for debugging
     * */
     public void setPosition(int x, int y) {
-        // Remove the piece from previous location
+        // Remove the piece from previous location.
         chessBoard.ChessBoard[current_row][current_col] = null;
-        //Update current location
+        // Update current location.
         current_row = x;
         current_col = y;
-        // Update the position of the King, if the current piece is a king
+        // Update the position of the King, if the current piece is a king.
         if (this instanceof King) {
             if (getColor()) {
                 chessBoard.white_king_row = current_row;
@@ -103,25 +101,25 @@ public abstract class ChessPiece {
             }
         }
         if(isValidLocation(x,y)) {
-            // Update the board again
+            // Update the board again withe piece new location.
             chessBoard.ChessBoard[current_row][current_col] = this;
         }
     }
 
 
-    // Check if the given location is not out of boundary
+    // Check if the given location is not out of boundary.
     public boolean isValidLocation(int x, int y) {
-        return (0 <= x && x < chessBoard.ROW_BOUNDARY && 0 <= y && y < chessBoard.COL_BOUNDARY);
+        return 0 <= x && x < chessBoard.ROW_BOUNDARY && 0 <= y && y < chessBoard.COL_BOUNDARY;
     }
 
-    // Determine if given movement is valid by no obstacles, and wouldn't give up the king
+    // Determine if given movement is valid by no obstacles, and wouldn't give up the king.
     public boolean isValidMovement(int x, int y) {
         boolean value = false;
         if (isReachable(x, y)) {
             int row = this.getCurrent_row();
             int col = this.getCurrent_col();
             ChessPiece temp_removed_piece = tryPosition(x, y);
-            // check if king is not threatened by any piece from other side, otherwise the movement is not valid
+            // Check if king is not threatened by any piece from other side, otherwise the movement is not valid.
             King alikeKing = getColor() ? (King) chessBoard.ChessBoard[chessBoard.white_king_row][chessBoard.white_king_col] :
                     (King) chessBoard.ChessBoard[chessBoard.black_king_row][chessBoard.black_king_col];
             if (!alikeKing.isInCheck()) {
@@ -132,29 +130,27 @@ public abstract class ChessPiece {
         return value;
     }
 
-    // Move to the specific location, by capturing piece if there is one and setPosition
+    // Move to the specific location, by capturing piece if there is one and setPosition.
     public void moveTo(int x, int y) {
         if (isValidMovement(x, y)) {
             ChessPiece removedPiece = null;
-            // update the position
+            // Update the position.
             if (chessBoard.ChessBoard[x][y] != null) {
                  removedPiece = chessBoard.ChessBoard[x][y];
             }
-            // Add it to the removed piece collector
+            // Add it to the removed piece collector.
             View.queryRemovedPiece(chessBoard, this, removedPiece, getCurrent_row(), getCurrent_col());
 
             setPosition(x, y);
-            // Pawn is no longer in a initial state
+            // Pawn is no longer in a initial state.
             if(this instanceof Pawn) {
                 Pawn pawn = (Pawn) this;
                 if(pawn.getInitState()) pawn.setInitState(false);
             }
-            // Terrorize's counter will increase as it moves
+            // Terrorize's counter will increase as it moves.
             else if(this instanceof Terrorize) {
-                // then we increment the counter
                 ((Terrorize) this).incCounter();
             }
-
         } else {
             // Then moveTo cannot be done
             System.out.println("Cannot Move To the Specified location (" + x + ", " + y + ")");
@@ -162,19 +158,19 @@ public abstract class ChessPiece {
         }
     }
 
-    //check if particular piece can directly eat opponent's king
+    // Check if particular piece can directly eat opponent's king.
     public boolean canDirectlyEatKing() {
         // Get the opposite Pieces.King's location
         int row = this.getColor() ? chessBoard.black_king_row : chessBoard.white_king_row;
         int col = this.getColor() ? chessBoard.black_king_col : chessBoard.white_king_col;
         if (this instanceof Pawn) {
-            // Then we  have to check if it's actually can eat king different way than other pieces
+            // Then we  have to check if it's actually can eat king different way than other pieces.
             if (((Pawn) this).isTryingEatingOther(row, col)) {
                 return true;
             } else
                 return false;
         } else {
-            //if it is reachable, then it is eatable
+            // If it is reachable, then it is eatable.
             return isReachable(row, col);
         }
     }
@@ -184,7 +180,7 @@ public abstract class ChessPiece {
      * Helper functions
      * **********************************************************************************************************
      */
-    // figures out if there is any piece in certain location, assume x,y is valid Location
+    // Figures out if there is any piece in certain location, assume x,y is valid Location.
     public boolean isAliasPieceInLocation(int x, int y) {
         ChessPiece piece = chessBoard.ChessBoard[x][y];
         return (piece != null && piece.color == this.getColor());
@@ -209,24 +205,24 @@ public abstract class ChessPiece {
     }
 
     /*
-    * figures out if there is any obstacle horizontally from current to destination
+    * Figures out if there is any obstacle horizontally from current to destination.
     * @param col of destination
     */
     public boolean isAnyObstacleHorizontally(int x, int y) {
         if (isInSameRow(x)) {
-            // Assume it is horizontally reachable
+            // Assume it is horizontally reachable.
             int curr_col = this.getCurrent_col();
             int curr_row = this.getCurrent_row();
-            // set the iterator to be whichever lower
+            // Set the iterator to be whichever lower.
             int iterator = curr_col < y ? 1 : -1;
             for (int j = 1; j <= Math.abs(y - curr_col); j++) {
                 if (j == Math.abs(y - curr_col)) {
-                    // check if there the destination piece has same color there
+                    // Check if there the destination piece has same color there.
                     if (isAliasPieceInLocation(curr_row, curr_col + j * iterator)) {
                         return true;
                     }
                 } else {
-                    // it is not the last element, so we check if it's piece or not
+                    // It is not the last element, so we check if it's piece or not.
                     if (isAnyPieceInLocation(curr_row, curr_col + j * iterator)) {
                         return true;
                     }
@@ -236,22 +232,22 @@ public abstract class ChessPiece {
         return false;
     }
 
-    //figures out if there is any obstacle diagonally from current to destination
+    // Figures out if there is any obstacle diagonally from current to destination.
     public boolean isAnyObstacleVertically(int x, int y) {
         if (isInSameCol(y)) {
-            // Assume it is vertically reachable
+            // Assume it is vertically reachable.
             int curr_col = this.getCurrent_col();
             int curr_row = this.getCurrent_row();
-            // set the iterator to be whichever lower
+            // Set the iterator to be whichever lower.
             int iterator = curr_row < x ? 1 : -1;
             for (int i = 1; i <= Math.abs(x - curr_row); i++) {
                 if (i == Math.abs(x - curr_row)) {
-                    // check if there the destination piece has same color there
+                    // Check if there the destination piece has same color there.
                     if (isAliasPieceInLocation(curr_row + i * iterator, curr_col)) {
                         return true;
                     }
                 } else {
-                    // it is not the last element, so we check if it's piece or not
+                    // It is not the last element, so we check if it's piece or not.
                     if (isAnyPieceInLocation(curr_row + i * iterator, curr_col)) {
                         return true;
                     }
@@ -261,22 +257,22 @@ public abstract class ChessPiece {
         return false;
     }
 
-    //figures out if there is any obstacle diagonally from current to destination to reach the given location
+    // Figures out if there is any obstacle diagonally from current to destination to reach the given location.
     public boolean isAnyObstacleDiagonally(int x, int y) {
         if (isInSameDiagonal(x, y)) {
             int curr_col = this.getCurrent_col();
             int curr_row = this.getCurrent_row();
-            // set the iterator to be whichever lower
+            // Set the iterator to be whichever lower.
             int iterator1 = curr_row < x ? 1 : -1;
             int iterator2 = curr_col < y ? 1 : -1;
             for (int i = 1; i <= Math.abs(x - curr_row); i++) {
                 if ((i == Math.abs(x - curr_row)) && (i == Math.abs(y - curr_col))) {
-                    // check if there the destination piece has same color there
+                    // Check if there the destination piece has same color there.
                     if (isAliasPieceInLocation(curr_row + i * iterator1, curr_col + i * iterator2)) {
                         return true;
                     }
                 } else {
-                    // it is not the last element, so we check if it's piece or not
+                    // It is not the last element, so we check if it's piece or not.
                     if (isAnyPieceInLocation(curr_row + i * iterator1, curr_col + i * iterator2)) {
                         return true;
                     }
@@ -288,7 +284,7 @@ public abstract class ChessPiece {
     }
 
     /*
-    * Try this new position temporarily, so do not delete the piece
+    * Try this new position temporarily, so do not delete the piece.
     * */
     private ChessPiece tryPosition(int row, int col) {
         ChessPiece temp_removed_piece = null;
@@ -299,18 +295,15 @@ public abstract class ChessPiece {
         return temp_removed_piece;
     }
     /*
-    * Put back the piece into its row, col position and put any piece previously been in the tried position
+    * Put back the piece into its row, col position and put any piece previously been in the tried position.
     * */
     private void revertPosition(int row, int col, ChessPiece temp_removed_piece) {
         int tried_row = this.getCurrent_row();
         int tried_col = this.getCurrent_col();
         this.setPosition(row, col);
         if(temp_removed_piece!=null) {
-            // put this piece back in its location
+            // Put this piece back in its location.
             temp_removed_piece.setPosition(tried_row, tried_col);
         }
     }
-
-
-
 }
