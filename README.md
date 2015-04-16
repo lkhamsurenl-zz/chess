@@ -13,4 +13,4 @@ How the game looks:
 ## Future Direction:
 
 * Adding network Support for multi-players
-* Extension of the game to different game board
+* AI for the game
