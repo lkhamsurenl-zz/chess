@@ -135,9 +135,10 @@ public class View extends JFrame {
         /***********************************************************************************************************
          * Following panel is main game display
          * *********************************************************************************************************/
+        // TODO(luvsandondov): Change the static file path.
         GUI panel = new GUI(chessBoard,
-                new ImageIcon("/home/luvsandondov/IdeaProjects/ChessGame/resources/icons/ChessPieces.png").getImage(),
-                new ImageIcon("/home/luvsandondov/IdeaProjects/ChessGame/resources/icons/other_img.png").getImage());
+                new ImageIcon("/Users/lkhamsurenl/Development/ChessGame/resources/icons/ChessPieces.png").getImage(),
+                new ImageIcon("/Users/lkhamsurenl/Development/ChessGame/resources/icons/other_img.png").getImage());
         panel.setPreferredSize(new Dimension(board_width + 2 * frame_margin_width, board_height + 2 * frame_margin_height));
         // I need to pass both JPanel and chessboard ot perform necessary action when mouse events happen
         MyListener myListener = new MyListener(this, panel, chessBoard);

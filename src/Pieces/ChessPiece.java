@@ -18,10 +18,12 @@ public abstract class ChessPiece {
      */
     // 1 = white, 0=black
     private boolean color;
-    // current position of the piece
+    // Current position of the piece.
+    // TODO(luvsandondov): Use Model.Position rather than row, col.
     private int current_row;
     private int current_col;
-    // this refers to the chessBoard it is getting played
+    // chessBoard the piece is on.
+    // TODO(luvsandondov): Move ChessBoard out of this class.
     ChessBoard chessBoard;
 
     /**
@@ -33,17 +35,17 @@ public abstract class ChessPiece {
         this.color = true;
         current_col = -1;
         current_row = -1;
-        // we also need Model.ChessBoard instance in which one it is referring to
+        // We also need Model.ChessBoard instance in which one it is referring.
         chessBoard = null;
     }
 
-    // set the piece
+    // Set the piece
     public ChessPiece(boolean color, int x, int y, ChessBoard chessBoard) {
         this.color = color;
         current_row = x;
         current_col = y;
         if (isValidLocation(x, y)) {
-            // initialize the piece position in the board.
+            // Initialize the piece position in the board.
             chessBoard.ChessBoard[x][y] = this;
         }
     }
@@ -53,13 +55,13 @@ public abstract class ChessPiece {
      * Abstract methods
      * *****************************************************************************
      */
-    // figure out if there is any obstacle to reach the destination
+    // Figure out if there is any obstacle to reach the destination.
     public abstract boolean isAnyObstacle(int x, int y);
 
-    // check if the given location is reachable by the piece and no piece in the way
+    // Check if the given location is reachable by the piece and no piece in the way.
     abstract boolean isReachable(int x, int y);
 
-    //Get all possible movements for the piece
+    // Get all possible movements for the piece.
     public abstract ArrayList<Position> possibleMovements();
 
     /**
@@ -82,7 +84,7 @@ public abstract class ChessPiece {
     public ChessBoard getChessBoard() {return chessBoard; }
 
     /*
-    * set the new position of the piece, useful for debugging
+    * Set the new position of the piece, useful for debugging.
     * */
     public void setPosition(int x, int y) {
         // Remove the piece from previous location.
