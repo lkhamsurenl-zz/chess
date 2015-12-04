@@ -23,16 +23,18 @@ public class View extends JFrame {
     * */
     private Player player1;
     private Player player2;
-    // Some static constants on showing UI pretty
+
+    // Some static constants on showing UI pretty.
     public static int frame_margin_width = 32;
     public static int frame_margin_height = 32;
-    // Actual chessboard sizes
+
+    // Actual chessboard sizes.
     public static int board_height = 512;
     public static int board_width = 512;
 
     static int playerPanel_width = 64 * 3;
 
-    //Keeping track of last movement
+    // Keeping track of last movement.
     public static ChessPiece lastMovedPiece = null;
     public static ChessPiece lastRemovedPiece = null;
     public static int previous_row;
@@ -84,17 +86,16 @@ public class View extends JFrame {
      * **************************************************************************************************************/
     /*
     * Keep track of teh last movement, so that can do Undo operation
-    * @param chessBoard - chessboard the game is going on
     * @param row -- row the piece was previously on
     * @param col -- column the piece was previously on
-    *
     * */
-    public static void queryRemovedPiece(ChessBoard chessBoard, ChessPiece lastMovedPiece1, ChessPiece lastRemovedPiece1, int row, int col) {
+    public static void queryRemovedPiece(ChessPiece lastMovedPiece1, ChessPiece lastRemovedPiece1, int row, int col) {
         lastMovedPiece = lastMovedPiece1;
         lastRemovedPiece = lastRemovedPiece1;
         previous_row = row;
         previous_col = col;
     }
+
     // Get player
     public Player getPlayer(boolean isPlayerOne) {
         if (isPlayerOne) {
@@ -102,6 +103,7 @@ public class View extends JFrame {
         } else
             return player2;
     }
+
     /*
     * Reset the variables to teh initial value
     * */
@@ -112,6 +114,7 @@ public class View extends JFrame {
         lastMovedPiece = null;
         lastRemovedPiece = null;
     }
+
     /*
     * Increment winner score by 1 in the system(Hashmap of Players)
     * */
@@ -141,7 +144,7 @@ public class View extends JFrame {
                 new ImageIcon("/Users/lkhamsurenl/Development/ChessGame/resources/icons/ChessPieces.png").getImage(),
                 new ImageIcon("/Users/lkhamsurenl/Development/ChessGame/resources/icons/other_img.png").getImage());
         panel.setPreferredSize(new Dimension(board_width + 2 * frame_margin_width, board_height + 2 * frame_margin_height));
-        // I need to pass both JPanel and chessboard ot perform necessary action when mouse events happen
+        // Pass both JPanel and chessboard ot perform necessary action when mouse events happen
         MyListener myListener = new MyListener(this, panel, chessBoard);
         panel.addMouseListener(myListener);
         panel.addMouseMotionListener(myListener);
@@ -301,6 +304,7 @@ public class View extends JFrame {
         });
         return restartButton;
     }
+
     /*
     * Forfeit Button
     * */
@@ -330,11 +334,11 @@ public class View extends JFrame {
     private void showErrorDialog(String message) {
         JOptionPane.showMessageDialog(this, message);
     }
+
     // Decides if the game is regular and exiting
     private int getGameType() {
         //Custom button text
-        Object[] options = {"Regular Chess",
-                "Exciting Chess"};
+        Object[] options = {"Regular Chess", "Exciting Chess"};
         int n = JOptionPane.showOptionDialog(this,
                 "Choose which type of game to play",
                 "Game Type",
@@ -345,5 +349,4 @@ public class View extends JFrame {
                 options[1]);
         return n;
     }
-
 }

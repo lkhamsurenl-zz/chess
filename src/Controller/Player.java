@@ -19,10 +19,9 @@ public class Player extends JPanel{
      * Constructors
      * **************************************************************************************************************/
     public Player(boolean color) {
-        // there is
         this.color = color;
-
     }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -37,16 +36,13 @@ public class Player extends JPanel{
     /**************************************************************************************************************
      * Public Functions
      * **************************************************************************************************************/
-     public String getName() { return name;}
+
+    public String getName() { return name;}
     public void setName(String newName) {name = newName; }
     public int getScore() {return score;}
     public void setScore( int newScore) {score = newScore;}
     public boolean getColor() {return color;}
     public void setColor(boolean color) {this.color = color;}
 
-
-     /**************************************************************************************************************
-     * Helper functions
-     * **************************************************************************************************************/
 }
 

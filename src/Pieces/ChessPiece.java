@@ -21,7 +21,6 @@ public abstract class ChessPiece {
     // Current position of the piece.
     private Position position;
     // chessBoard the piece is on.
-    // TODO(luvsandondov): Move ChessBoard out of this class.
     ChessBoard chessBoard;
 
     /**
@@ -90,11 +89,9 @@ public abstract class ChessPiece {
         // Update the position of the King, if the current piece is a king.
         if (this instanceof King) {
             if (getColor()) {
-                chessBoard.white_king_row = this.position.getRow();
-                chessBoard.white_king_col = this.position.getCol();
+                chessBoard.white_king_position = this.position;
             } else {
-                chessBoard.black_king_row = this.position.getRow();
-                chessBoard.black_king_col = this.position.getCol();
+                chessBoard.black_king_position = this.position;
             }
         }
         if(isValidLocation(p)) {
@@ -106,7 +103,8 @@ public abstract class ChessPiece {
 
     // Check if the given location is not out of boundary.
     public boolean isValidLocation(Position p) {
-        return 0 <= p.getRow() && p.getRow() < chessBoard.ROW_BOUNDARY && 0 <= p.getCol() && p.getCol() < chessBoard.COL_BOUNDARY;
+        return 0 <= p.getRow() && p.getRow() < chessBoard.ROW_BOUNDARY &&
+                0 <= p.getCol() && p.getCol() < chessBoard.COL_BOUNDARY;
     }
 
     // Determine if given movement is valid by no obstacles, and wouldn't give up the king.
@@ -116,9 +114,11 @@ public abstract class ChessPiece {
             Position old_pos = new Position(this.position);
             ChessPiece temp_removed_piece = tryPosition(p);
             // Check if king is not threatened by any piece from other side, otherwise the movement is not valid.
-            King alikeKing = getColor() ? (King) chessBoard.ChessBoard[chessBoard.white_king_row][chessBoard.white_king_col] :
-                    (King) chessBoard.ChessBoard[chessBoard.black_king_row][chessBoard.black_king_col];
-            if (!alikeKing.isInCheck()) {
+            King aliasKing = getColor() ? (King) chessBoard.ChessBoard[chessBoard.white_king_position.getRow()]
+                                                                        [chessBoard.white_king_position.getCol()] :
+                    (King) chessBoard.ChessBoard[chessBoard.black_king_position.getRow()]
+                            [chessBoard.black_king_position.getCol()];
+            if (!aliasKing.isInCheck()) {
                 value = true;
             }
             revertPosition(old_pos, temp_removed_piece);
@@ -135,7 +135,7 @@ public abstract class ChessPiece {
                  removedPiece = chessBoard.ChessBoard[p.getRow()][p.getCol()];
             }
             // Add it to the removed piece collector.
-            View.queryRemovedPiece(chessBoard, this, removedPiece, getRow(), getCol());
+            View.queryRemovedPiece(this, removedPiece, getRow(), getCol());
 
             setPosition(p);
             // Pawn is no longer in a initial state.
@@ -157,9 +157,7 @@ public abstract class ChessPiece {
     // Check if particular piece can directly eat opponent's king.
     public boolean canDirectlyEatKing() {
         // Get the opposite Pieces.King's location
-        int row = this.getColor() ? chessBoard.black_king_row : chessBoard.white_king_row;
-        int col = this.getColor() ? chessBoard.black_king_col : chessBoard.white_king_col;
-        Position p = new Position(row, col);
+        Position p = this.color ? chessBoard.black_king_position : chessBoard.white_king_position;
         if (this instanceof Pawn) {
             // Then we  have to check if it's actually can eat king different way than other pieces.
             if (((Pawn) this).isTryingEatingOther(p)) {
@@ -202,8 +200,7 @@ public abstract class ChessPiece {
     }
 
     /*
-    * Figures out if there is any obstacle horizontally from current to destination.
-    * @param col of destination
+    * Check if there is any obstacle horizontally from current to destination.
     */
     public boolean isAnyObstacleHorizontally(Position p) {
         if (isInSameRow(p.getRow())) {
@@ -293,16 +290,16 @@ public abstract class ChessPiece {
         this.setPosition(p);
         return temp_removed_piece;
     }
+
     /*
     * Put back the piece into its row, col position and put any piece previously been in the tried position.
     * */
     private void revertPosition(Position p, ChessPiece temp_removed_piece) {
-        int tried_row = this.getRow();
-        int tried_col = this.getCol();
+        Position old_loc = new Position(this.position);
         this.setPosition(p);
         if(temp_removed_piece!=null) {
             // Put this piece back in its location.
-            temp_removed_piece.setPosition(new Position(tried_row, tried_col));
+            temp_removed_piece.setPosition(old_loc);
         }
     }
 }

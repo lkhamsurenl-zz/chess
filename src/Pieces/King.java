@@ -18,11 +18,9 @@ public class King extends ChessPiece {
         super(color, p, chessBoard);
         // Initialize King location
         if (!color) {
-            chessBoard.black_king_row = p.getRow();
-            chessBoard.black_king_col = p.getCol();
+            chessBoard.black_king_position = p;
         } else {
-            chessBoard.white_king_row = p.getRow();
-            chessBoard.white_king_col = p.getCol();
+            chessBoard.white_king_position = p;
         }
     }
 

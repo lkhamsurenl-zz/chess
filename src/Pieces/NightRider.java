@@ -24,7 +24,6 @@ public class NightRider extends ChessPiece{
     }
 
     public NightRider(boolean color, Position p, ChessBoard chessBoard) {
-
         super(color, p, chessBoard);
         if(isLegalNightRiderMove(p)) {
             multiplicity = getMultiplicity(p);
@@ -44,9 +43,9 @@ public class NightRider extends ChessPiece{
         int col_step = (p.getCol() - getCol()) / multiplicity;
         // it's assumed here that movement is valid.
         // we need to check movement validity through checking
-        for(int i=1; i<= multiplicity; i++) {
+        for(int i=1; i <= multiplicity; i++) {
             if(i != multiplicity) {
-                if(isAnyPieceInLocation(new Position(getRow() + i * row_step, getCol() + i*col_step))) {
+                if(isAnyPieceInLocation(new Position(getRow() + i * row_step, getCol() + i * col_step))) {
                     return true;
                 }
             }

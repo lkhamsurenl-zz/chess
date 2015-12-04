@@ -18,7 +18,6 @@ public class GUI extends JPanel{
     private static int frame_margin_width = View.frame_margin_width;
     private static int frame_margin_height = View.frame_margin_height;
 
-    private static int x = 0, y = 0;
     private static int _ROW = ChessBoard.ROW_BOUNDARY;
     private static int _COL = ChessBoard.COL_BOUNDARY;
     private static int ROW_TIMES_COL = _ROW * _COL;
@@ -202,12 +201,13 @@ public class GUI extends JPanel{
         }
         return new Position(j,k);
     }
+
     /*
-       * Fills up the square with alternating color
-       * ****************************************
-       *  This part of the code has been borrowed from "Simple Chess Engine, Youtube Tutorial".
-       * ****************************************
-       * */
+     * Fills up the square with alternating color
+     * ****************************************
+     *  This part of the code has been borrowed from "Simple Chess Engine, Youtube Tutorial".
+     * ****************************************
+     * */
     private void drawBoard(Graphics g) {
         for (int i = 0; i < ROW_TIMES_COL; i += 2) {
             g.setColor(new Color(234,206,164));

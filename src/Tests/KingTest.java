@@ -21,10 +21,10 @@ public class KingTest extends TestCase {
     Pawn black_pawn = new Pawn(false, new Position(1, 2), chessBoard);
 
     /*
-    * I have to set the locations to be initial after each tests
+    * I have to set the locations to be initial before each tests
     * */
     @Before
-    public void afterEachTest() {
+    public void beforeEachTest() {
         white_king.setPosition(new Position(0, 3));
         black_king.setPosition(new Position(2, 4));
 
@@ -33,11 +33,7 @@ public class KingTest extends TestCase {
 
     }
 
-    /*
-    *
-    * Determine if given movement is valid by no obstacles, and wouldn't give up the king
-    *
-    * */
+    // Determine if given movement is valid by no obstacles, and wouldn't give up the king.
     @Test
     public void testIsValidMovement() throws Exception {
 
@@ -46,21 +42,15 @@ public class KingTest extends TestCase {
 
     }
 
-    /*
-    * given position is reachable by valid boundary and no obstacles
-    * */
+    // Given position is reachable by valid boundary and no obstacles.
     @Test
     public void testIsReachable() throws Exception {
         assertEquals(white_king.isReachable(new Position(1, 2)), true);
         //since there is pawn
         assertEquals(white_king.isReachable(new Position(1, 4)), false);
         assertEquals(white_king.isReachable(new Position(0, 1)), false);
-
     }
 
-    /*
-    *
-    * */
     @Test
     public void testIsInCheckMate() throws Exception {
         assertEquals(white_king.isInCheck(), true);

@@ -24,6 +24,7 @@ public class Position {
         row = p.getRow();
         col = p.getCol();
     }
+
     /*
     * Get methods.
     * */

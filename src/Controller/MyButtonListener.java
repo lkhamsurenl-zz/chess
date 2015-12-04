@@ -46,9 +46,7 @@ public class MyButtonListener implements MouseListener {
      * Mouse interaction functions
      * **********************************************************************************************************
      */
-    /*
-    *
-    * */
+
     @Override
     public void mouseClicked(MouseEvent e) {
         String displayName;
@@ -74,7 +72,7 @@ public class MyButtonListener implements MouseListener {
         PlayGame.removeAllPieces(chessBoard);
         PlayGame.turn = true;
         PlayGame.START = false;
-        // repaint
+        // Repaint.
         mainPanel.repaint();
     }
 

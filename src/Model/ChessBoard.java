@@ -14,12 +14,9 @@ public class ChessBoard {
     public static final int COL_BOUNDARY = 8;
 
     // Location of the white king
-    public static int white_king_col;
-    public static int white_king_row;
-
+    public static Position white_king_position;
     // Location of the black king
-    public static int black_king_row;
-    public static int black_king_col;
+    public static Position black_king_position;
 
     /**
      * Consists of Chess Pieces in each node. null means no piece in there
@@ -52,9 +49,11 @@ public class ChessBoard {
     * */
     public boolean isTheSideLost(boolean color) {
         // Get the king location of the current side
-        int row = color ? white_king_row : black_king_row;
-        int col = color ? white_king_col : black_king_col;
-        King king = (King) ChessBoard[row][col];
+        Position king_pos = white_king_position;
+        if (!color) {
+            king_pos = black_king_position;
+        }
+        King king = (King) ChessBoard[king_pos.getRow()][king_pos.getCol()];
         if (king.isInCheck()) {
             for (int i = 0; i < ROW_BOUNDARY; i++) {
                 for (int j = 0; j < COL_BOUNDARY; j++) {

@@ -27,8 +27,8 @@ public class ChessPieceTest extends TestCase {
 
         white_pawn.setPosition(new Position(1,4));
         black_pawn.setPosition(new Position(1,3));
-
     }
+
     /*
     * check the boundaries. It only needed to be checked once.
     * */
@@ -88,5 +88,4 @@ public class ChessPieceTest extends TestCase {
         assertEquals(white_king.isAnyObstacleDiagonally(new Position(1,2)), false);
         assertEquals(white_king.isAnyObstacleDiagonally(new Position(2,1)), true);
     }
-
 }

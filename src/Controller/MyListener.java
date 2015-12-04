@@ -51,6 +51,7 @@ public class MyListener extends MouseInputAdapter{
             jpanel.repaint();
         }
     }
+
     // We check destination place validity and make move
     @Override
     public void mouseReleased(MouseEvent e) {
@@ -114,6 +115,4 @@ public class MyListener extends MouseInputAdapter{
         return View.frame_margin_height < mouseY && (mouseY < View.frame_margin_height + View.board_height) &&
                 View.frame_margin_width < mouseX && (mouseX < View.frame_margin_width  + View.board_width);
     }
-
-
 }

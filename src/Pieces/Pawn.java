@@ -114,14 +114,12 @@ public class Pawn extends ChessPiece {
     boolean isMovingForward(Position p) {
         if (isInSameCol(p.getCol())) {
             int indicator = getColor() ? 1 : -1;
-            // if white, then should be moving up
-            // else should be moving down
+            // if white, then should be moving up; else should be moving down
             return indicator * (p.getRow() - getRow()) == 1;
         }
         return false;
     }
 
-    // if there is non
     public boolean isJumpTwo(Position p) {
         // it is first move and same column, then we know it cannot move back
         if (isInInitState && isInSameCol(p.getCol())) {
