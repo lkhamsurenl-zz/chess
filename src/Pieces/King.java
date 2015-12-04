@@ -14,15 +14,15 @@ public class King extends ChessPiece {
         super();
     }
 
-    public King(boolean color, int x, int y, ChessBoard chessBoard) {
-        super(color, x, y, chessBoard);
+    public King(boolean color, Position p, ChessBoard chessBoard) {
+        super(color, p, chessBoard);
         // Initialize King location
         if (!color) {
-            chessBoard.black_king_row = x;
-            chessBoard.black_king_col = y;
+            chessBoard.black_king_row = p.getRow();
+            chessBoard.black_king_col = p.getCol();
         } else {
-            chessBoard.white_king_row = x;
-            chessBoard.white_king_col = y;
+            chessBoard.white_king_row = p.getRow();
+            chessBoard.white_king_col = p.getCol();
         }
     }
 
@@ -32,25 +32,25 @@ public class King extends ChessPiece {
      * ********************************************************************************************
      */
     @Override
-    public boolean isAnyObstacle(int x, int y) {
-        return isAnyObstacleHorizontally(x, y) || isAnyObstacleVertically(x, y) || isAnyObstacleDiagonally(x, y);
+    public boolean isAnyObstacle(Position p) {
+        return isAnyObstacleHorizontally(p) || isAnyObstacleVertically(p) || isAnyObstacleDiagonally(p);
     }
 
     @Override
-    public boolean isReachable(int x, int y) {
+    public boolean isReachable(Position p) {
         // Check the potential position
         // Figure out if it is valid in a boundary using isValidLocation
-        return isValidLocation(x, y) && isLegalKingMove(x, y) && !isAnyObstacle(x, y);
+        return isValidLocation(p) && isLegalKingMove(p) && !isAnyObstacle(p);
     }
 
     /*
     * Figures out if it's a legal king move
     *
     * */
-    public boolean isLegalKingMove(int x, int y) {
-        if (!(x == getCurrent_row() && y == getCurrent_col())) {
-            return (x != getCurrent_row() || y != getCurrent_col()) && (Math.abs(this.getCurrent_row() - x) < 2 &&
-                    Math.abs(this.getCurrent_col() - y) < 2);
+    public boolean isLegalKingMove(Position p) {
+        if (!(p.getRow() == getCurrent_row() && p.getCol() == getCurrent_col())) {
+            return (p.getRow() != getCurrent_row() || p.getCol() != getCurrent_col()) && (Math.abs(this.getCurrent_row() - p.getRow()) < 2 &&
+                    Math.abs(this.getCurrent_col() - p.getCol()) < 2);
         }
         return false;
     }
@@ -63,9 +63,9 @@ public class King extends ChessPiece {
         ArrayList<Position> positions = new ArrayList<Position>();
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
-                if ((i != 0 || j != 0) && isValidMovement(getCurrent_row() + i, getCurrent_col() + j)) {
-                    Position position = new Position(getCurrent_row() + i, getCurrent_col() + j);
-                    positions.add(position);
+                Position p = new Position(getCurrent_row() + i, getCurrent_col() + j);
+                if ((i != 0 || j != 0) && isValidMovement(p)) {
+                    positions.add(p);
                 }
             }
         }

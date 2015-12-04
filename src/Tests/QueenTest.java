@@ -14,11 +14,11 @@ import static org.junit.Assert.*;
 public class QueenTest {
 
     ChessBoard chessBoard = new ChessBoard();
-    King white_king = new King(true, 0, 3, chessBoard);
-    King black_king = new King(false, 2, 4, chessBoard);
+    King white_king = new King(true, new Position(0, 3), chessBoard);
+    King black_king = new King(false, new Position(2, 4), chessBoard);
 
-    Queen white_queen = new Queen(true, 4, 2, chessBoard);
-    Queen black_queen = new Queen(false, 7, 4, chessBoard);
+    Queen white_queen = new Queen(true, new Position(4, 2), chessBoard);
+    Queen black_queen = new Queen(false,new Position(7, 4), chessBoard);
 
 
     /*
@@ -26,11 +26,11 @@ public class QueenTest {
     * */
     @Before
     public void afterEachTest() {
-        white_king.setPosition(0, 3);
-        black_king.setPosition(2, 4);
+        white_king.setPosition(new Position(0, 3));
+        black_king.setPosition(new Position(2, 4));
 
-        white_queen.setPosition(4, 2);
-        black_queen.setPosition(7, 4);
+        white_queen.setPosition(new Position(4, 2));
+        black_queen.setPosition(new Position(7, 4));
 
     }
 
@@ -39,27 +39,27 @@ public class QueenTest {
     * */
     @Test
     public void testIsReachable() throws Exception {
-        white_queen.setPosition(0, 2);
-        assertEquals(white_queen.isReachable(0, 3), false);
+        white_queen.setPosition(new Position(0, 2));
+        assertEquals(white_queen.isReachable(new Position(0, 3)), false);
         // but can eat the king
-        assertEquals(white_queen.isReachable(2, 4), true);
+        assertEquals(white_queen.isReachable(new Position(2, 4)), true);
         // cannot step over it
-        assertEquals(white_queen.isReachable(3, 5), false);
+        assertEquals(white_queen.isReachable(new Position(3, 5)), false);
     }
 
     @Test
     public void testIsValidMovement() throws Exception {
-        white_queen.setPosition(4, 3);
-        black_queen.setPosition(7, 3);
+        white_queen.setPosition(new Position(4, 3));
+        black_queen.setPosition(new Position(7, 3));
         // now the white_king is in danger, if the queen moves horizontally
-        assertEquals(white_queen.isValidMovement(4, 2), false);
+        assertEquals(white_queen.isValidMovement(new Position(4, 2)), false);
         // but it can move vertically
-        assertEquals(white_queen.isValidMovement(1, 3), true);
+        assertEquals(white_queen.isValidMovement(new Position(1, 3)), true);
     }
 
     @Test
     public void testMoveTo() throws Exception {
-        white_queen.moveTo(4, 3);
+        white_queen.moveTo(new Position(4, 3));
         assertNotNull(chessBoard.ChessBoard[4][3]);
         assertNull(chessBoard.ChessBoard[4][2]);
 
@@ -68,7 +68,7 @@ public class QueenTest {
     @Test
     public void testCanDirectlyEatKing() throws Exception {
         assertEquals(white_queen.canDirectlyEatKing(), true);
-        black_queen.setPosition(3, 3);
+        black_queen.setPosition(new Position(3, 3));
         assertEquals(white_queen.canDirectlyEatKing(), false);
     }
 

@@ -23,11 +23,11 @@ public class NightRider extends ChessPiece{
         super();
     }
 
-    public NightRider(boolean color, int x, int y, ChessBoard chessBoard) {
+    public NightRider(boolean color, Position p, ChessBoard chessBoard) {
 
-        super(color, x, y, chessBoard);
-        if(isLegalNightRiderMove(x,y)) {
-            multiplicity = getMultiplicity(x,y);
+        super(color, p, chessBoard);
+        if(isLegalNightRiderMove(p)) {
+            multiplicity = getMultiplicity(p);
         }
     }
 
@@ -36,43 +36,33 @@ public class NightRider extends ChessPiece{
      * Abstract methods inherited from the base class. See the Pieces.ChessPiece class for description
      * ********************************************************************************************
      */
-    /*
-    * @param x -- destination row
-    * @param y -- destination column
-    *
-    * */
     @Override
-    public boolean isAnyObstacle(int x, int y) {
-        multiplicity = getMultiplicity(x,y);
+    public boolean isAnyObstacle(Position p) {
+        multiplicity = getMultiplicity(p);
         // steps of how much taking
-        int row_step = (x - getCurrent_row())/ multiplicity;
-        int col_step = (y - getCurrent_col()) / multiplicity;
+        int row_step = (p.getRow() - getCurrent_row())/ multiplicity;
+        int col_step = (p.getCol() - getCurrent_col()) / multiplicity;
         // it's assumed here that movement is valid.
         // we need to check movement validity through checking
         for(int i=1; i<= multiplicity; i++) {
             if(i != multiplicity) {
-                if(isAnyPieceInLocation(getCurrent_row() + i * row_step, getCurrent_col() + i*col_step)) {
+                if(isAnyPieceInLocation(new Position(getCurrent_row() + i * row_step, getCurrent_col() + i*col_step))) {
                     return true;
                 }
             }
             else {
                 // it's the destination position, so we check if it's the alias
-                return isAliasPieceInLocation(x,y);
+                return isAliasPieceInLocation(p);
             }
         }
         return false;
     }
 
-    /*
-    * @param x -- destination row
-    * @param y -- destination column
-    *
-    * */
     @Override
-    public boolean isReachable(int x, int y) {
+    public boolean isReachable(Position p) {
         // Check the potential position
         // Figure out if it is valid in a boundary using isValidLocation and valid Movement
-        return isValidLocation(x, y) && isLegalNightRiderMove(x, y) && !isAnyObstacle(x, y);
+        return isValidLocation(p) && isLegalNightRiderMove(p) && !isAnyObstacle(p);
     }
 
     @Override
@@ -80,9 +70,9 @@ public class NightRider extends ChessPiece{
         ArrayList<Position> positions = new ArrayList<Position>();
         for (int i = 0; i < chessBoard.ROW_BOUNDARY; i++) {
             for (int j = 0; j < chessBoard.COL_BOUNDARY; j++) {
-                if (isValidMovement(i, j)) {
-                    Position position = new Position(i, j);
-                    positions.add(position);
+                Position p = new Position(i, j);
+                if (isValidMovement(p)) {
+                    positions.add(p);
                 }
             }
         }
@@ -94,11 +84,11 @@ public class NightRider extends ChessPiece{
      * Helper functions
      * ********************************************************************************************
      */
-    private int getMultiplicity(int x, int y){
+    private int getMultiplicity(Position p){
         int mul;
         // absolute difference in col and row
-        int abs_row_diff = Math.abs(getCurrent_row() - x);
-        int abs_col_diff = Math.abs(getCurrent_col() - y);
+        int abs_row_diff = Math.abs(getCurrent_row() - p.getRow());
+        int abs_col_diff = Math.abs(getCurrent_col() - p.getCol());
         if(abs_row_diff < abs_col_diff) {
             mul= abs_col_diff  -  abs_row_diff;
         }
@@ -109,13 +99,11 @@ public class NightRider extends ChessPiece{
     }
     /*
     * Figures out if the movement is legal piece movement
-    * * @param x -- row
-    * @param y --column
     * */
-    private boolean isLegalNightRiderMove(int x, int y) {
-        if(!(x==getCurrent_row() && y == getCurrent_col())) {
-            int abs_row_diff = Math.abs(getCurrent_row() - x);
-            int abs_col_diff = Math.abs(getCurrent_col() - y);
+    private boolean isLegalNightRiderMove(Position p) {
+        if(!(p.getRow() == getCurrent_row() && p.getCol() == getCurrent_col())) {
+            int abs_row_diff = Math.abs(getCurrent_row() - p.getRow());
+            int abs_col_diff = Math.abs(getCurrent_col() - p.getCol());
             if(abs_row_diff < abs_col_diff) {
                 return (abs_col_diff == abs_row_diff *2);
             }

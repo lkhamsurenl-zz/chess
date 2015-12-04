@@ -1,6 +1,7 @@
 package Tests;
 
 import Model.ChessBoard;
+import Model.Position;
 import Pieces.King;
 import View.GUI;
 import org.junit.Test;
@@ -9,8 +10,8 @@ import javax.swing.*;
 
 public class GUITest {
     ChessBoard chessBoard = new ChessBoard();
-    King white_king = new King(true, 0, 4, chessBoard);
-    King black_king = new King(false, 7, 4, chessBoard);
+    King white_king = new King(true, new Position(0, 4), chessBoard);
+    King black_king = new King(false, new Position(7, 4), chessBoard);
 
 
     @Test

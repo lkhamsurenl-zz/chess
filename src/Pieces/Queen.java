@@ -18,8 +18,8 @@ public class Queen extends ChessPiece {
         super();
     }
 
-    public Queen(boolean color, int x, int y, ChessBoard chessBoard) {
-        super(color, x, y, chessBoard);
+    public Queen(boolean color, Position p, ChessBoard chessBoard) {
+        super(color, p, chessBoard);
     }
 
     /**
@@ -29,15 +29,15 @@ public class Queen extends ChessPiece {
      */
 
     @Override
-    public boolean isAnyObstacle(int x, int y) {
-        return isAnyObstacleHorizontally(x, y) || isAnyObstacleVertically(x, y) || isAnyObstacleDiagonally(x, y);
+    public boolean isAnyObstacle(Position p) {
+        return isAnyObstacleHorizontally(p) || isAnyObstacleVertically(p) || isAnyObstacleDiagonally(p);
     }
 
     @Override
-    public boolean isReachable(int x, int y) {
+    public boolean isReachable(Position p) {
         // Check the potential position
         // Figure out if it is valid in a boundary using isValidLocation and valid Movement
-        return isValidLocation(x, y) && isLegalQueenMove(x, y) && !isAnyObstacle(x, y);
+        return isValidLocation(p) && isLegalQueenMove(p) && !isAnyObstacle(p);
     }
 
     /*
@@ -49,9 +49,9 @@ public class Queen extends ChessPiece {
         ArrayList<Position> positions = new ArrayList<Position>();
         for (int i = 0; i < chessBoard.ROW_BOUNDARY; i++) {
             for (int j = 0; j < chessBoard.COL_BOUNDARY; j++) {
-                if (isValidMovement(i, j)) {
-                    Position position = new Position(i, j);
-                    positions.add(position);
+                Position p = new Position(i, j);
+                if (isValidMovement(p)) {
+                    positions.add(p);
                 }
             }
         }
@@ -66,9 +66,9 @@ public class Queen extends ChessPiece {
     /*
 * Figures out if the move is a legal Pieces.Queen move
 * */
-    private boolean isLegalQueenMove(int x, int y) {
-        if (!(x == getCurrent_row() && y == getCurrent_col())) {
-            return (isInSameCol(y) || isInSameRow(x) || isInSameDiagonal(x, y));
+    private boolean isLegalQueenMove(Position p) {
+        if (!(p.getRow() == getCurrent_row() && p.getCol() == getCurrent_col())) {
+            return (isInSameCol(p.getCol()) || isInSameRow(p.getRow()) || isInSameDiagonal(p));
         }
         return false;
     }

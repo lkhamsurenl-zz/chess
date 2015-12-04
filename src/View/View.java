@@ -5,6 +5,7 @@ import Controller.MyListener;
 import Controller.Player;
 import Model.ChessBoard;
 import Model.PlayGame;
+import Model.Position;
 import Pieces.ChessPiece;
 import Pieces.Pawn;
 
@@ -215,9 +216,9 @@ public class View extends JFrame {
                     int curr_col = lastMovedPiece.getCurrent_col();
                     // Find the last movement
 
-                    lastMovedPiece.setPosition(previous_row, previous_col);
+                    lastMovedPiece.setPosition(new Position(previous_row, previous_col));
                     if (lastRemovedPiece != null) {
-                        lastRemovedPiece.setPosition(curr_row, curr_col);
+                        lastRemovedPiece.setPosition(new Position(curr_row, curr_col));
                     }
                     // Give the turn back
                     PlayGame.turn = !PlayGame.turn;

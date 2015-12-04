@@ -71,7 +71,7 @@ public class MyListener extends MouseInputAdapter{
                         if(position.getRow() == newRow && position.getCol() == newCol) {
                             // then we can move there
                             if(pickedPiece.getColor() == PlayGame.turn) {
-                                pickedPiece.moveTo(newRow, newCol);
+                                pickedPiece.moveTo(new Position(newRow, newCol));
                                 PlayGame.turn = PlayGame.turn?false:true;
                                 PlayGame.isGameFinished = chessBoard.isGameFinished();
                             }

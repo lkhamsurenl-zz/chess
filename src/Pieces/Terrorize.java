@@ -34,8 +34,8 @@ public class Terrorize extends ChessPiece {
         count = 0;
     }
 
-    public Terrorize(boolean color, int x, int y, int count, ChessBoard chessBoard) {
-        super(color, x, y, chessBoard);
+    public Terrorize(boolean color, Position p, int count, ChessBoard chessBoard) {
+        super(color, p, chessBoard);
         this.count = count;
     }
 
@@ -44,35 +44,25 @@ public class Terrorize extends ChessPiece {
      * Abstract methods inherited from the base class. See the Pieces.ChessPiece class for description
      * ********************************************************************************************
      */
-    /*
-    * @param x -- destination row
-    * @param y -- destination column
-    *
-    * */
     @Override
-    public boolean isAnyObstacle(int x, int y) {
+    public boolean isAnyObstacle(Position p) {
         // Queen move
         if (count % 3 == 0) {
-            return isAnyObstacleHorizontally(x, y) || isAnyObstacleVertically(x, y) || isAnyObstacleDiagonally(x, y);
+            return isAnyObstacleHorizontally(p) || isAnyObstacleVertically(p) || isAnyObstacleDiagonally(p);
         } else if (count % 3 == 1) {
             // Knight movement
-            return isAliasPieceInLocation(x, y);
+            return isAliasPieceInLocation(p);
         } else {
             // CAn move anywhere with no piece
-            return isAnyPieceInLocation(x, y);
+            return isAnyPieceInLocation(p);
         }
     }
 
-    /*
-    * @param x -- destination row
-    * @param y -- destination column
-    *
-    * */
     @Override
-    public boolean isReachable(int x, int y) {
+    public boolean isReachable(Position p) {
         // Check the potential position
         // Figure out if it is valid in a boundary using isValidLocation and valid Movement
-        return isValidLocation(x, y) && isLegalTerrorizeMove(x, y) && !isAnyObstacle(x, y);
+        return isValidLocation(p) && isLegalTerrorizeMove(p) && !isAnyObstacle(p);
     }
 
     @Override
@@ -80,9 +70,9 @@ public class Terrorize extends ChessPiece {
         ArrayList<Position> positions = new ArrayList<Position>();
         for (int i = 0; i < ChessBoard.ROW_BOUNDARY; i++) {
             for (int j = 0; j < ChessBoard.COL_BOUNDARY; j++) {
-                if (isValidMovement(i, j)) {
-                    Position position = new Position(i, j);
-                    positions.add(position);
+                Position p = new Position(i, j);
+                if (isValidMovement(p)) {
+                    positions.add(p);
                 }
             }
         }
@@ -102,16 +92,14 @@ public class Terrorize extends ChessPiece {
     }
     /*
     * Figures out if the movement is legal piece movement
-    * * @param x -- row
-    * @param y --column
     * */
-    private boolean isLegalTerrorizeMove(int x, int y) {
+    private boolean isLegalTerrorizeMove(Position p) {
         if (count % 3 == 0) {
             // Queen move
-            return isLegalQueenMove(x, y);
+            return isLegalQueenMove(p);
         } else if (count % 3 == 1) {
             //check if Pieces.Knight movement
-            return isLegalKnightMove(x, y);
+            return isLegalKnightMove(p);
         } else {
             // since it can get anywhere
             // NOTE: we check if there is any piece in the destination with isAnyObstacle function
@@ -122,9 +110,9 @@ public class Terrorize extends ChessPiece {
     /*
     * Figures out if the move is a legal Pieces.Queen move
     * */
-    private boolean isLegalQueenMove(int x, int y) {
-        if (!(x == getCurrent_row() && y == getCurrent_col())) {
-            return (isInSameCol(y) || isInSameRow(x) || isInSameDiagonal(x, y));
+    private boolean isLegalQueenMove(Position p) {
+        if (!(p.getRow() == getCurrent_row() && p.getCol() == getCurrent_col())) {
+            return (isInSameCol(p.getCol()) || isInSameRow(p.getRow()) || isInSameDiagonal(p));
         }
         return false;
     }
@@ -134,11 +122,11 @@ public class Terrorize extends ChessPiece {
     * @param x -- row
     * @param y --column
     * */
-    private boolean isLegalKnightMove(int x, int y) {
+    private boolean isLegalKnightMove(Position p) {
         //cannot be in a same position
-        if (!(x == getCurrent_row() && y == getCurrent_col())) {
-            int distance = Math.abs(x - getCurrent_row()) + Math.abs(y - getCurrent_col());
-            return ((distance == 3) && !(isInSameCol(y) || isInSameRow(x)));
+        if (!(p.getRow() == getCurrent_row() && p.getCol() == getCurrent_col())) {
+            int distance = Math.abs(p.getRow() - getCurrent_row()) + Math.abs(p.getCol() - getCurrent_col());
+            return ((distance == 3) && !(isInSameCol(p.getCol()) || isInSameRow(p.getRow())));
         }
         return false;
     }

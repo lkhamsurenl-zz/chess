@@ -13,8 +13,8 @@ public class Knight extends ChessPiece {
         super();
     }
 
-    public Knight(boolean color, int x, int y, ChessBoard chessBoard) {
-        super(color, x, y, chessBoard);
+    public Knight(boolean color, Position p, ChessBoard chessBoard) {
+        super(color, p, chessBoard);
     }
 
     /**
@@ -27,15 +27,15 @@ public class Knight extends ChessPiece {
     * NOTE: This method will be only called when the movement is valid
     * */
     @Override
-    public boolean isAnyObstacle(int x, int y) {
-        return isAliasPieceInLocation(x, y);
+    public boolean isAnyObstacle(Position p) {
+        return isAliasPieceInLocation(p);
     }
 
     @Override
-    public boolean isReachable(int x, int y) {
+    public boolean isReachable(Position p) {
         // Check the potential position
         // Figure out if it is valid in a boundary using isValidLocation and valid Movement for particular piece
-        return isValidLocation(x, y) && isLegalKnightMove(x, y) && !isAnyObstacle(x, y);
+        return isValidLocation(p) && isLegalKnightMove(p) && !isAnyObstacle(p);
     }
 
     /*
@@ -46,10 +46,10 @@ public class Knight extends ChessPiece {
         ArrayList<Position> positions = new ArrayList<Position>();
         for (int i = -2; i < 3; i++) {
             for (int j = -2; j < 3; j++) {
+                Position p = new Position(getCurrent_row() + i, getCurrent_col() + j);
                 //we need to check if the movement can be made without losing the king
-                if (isValidMovement(getCurrent_row() + i, getCurrent_col() + j)) {
-                    Position position = new Position(getCurrent_row() + i, getCurrent_col() + j);
-                    positions.add(position);
+                if (isValidMovement(p)) {
+                    positions.add(p);
                 }
             }
         }
@@ -64,11 +64,11 @@ public class Knight extends ChessPiece {
     /*
     * It's valid knight move, if exactly distance 3 and not in same row or column
     * */
-    public boolean isLegalKnightMove(int x, int y) {
+    public boolean isLegalKnightMove(Position p) {
         //cannot be in a same position
-        if (!(x == getCurrent_row() && y == getCurrent_col())) {
-            int distance = Math.abs(x - getCurrent_row()) + Math.abs(y - getCurrent_col());
-            return ((distance == 3) && !(isInSameCol(y) || isInSameRow(x)));
+        if (!(p.getRow() == getCurrent_row() && p.getCol() == getCurrent_col())) {
+            int distance = Math.abs(p.getRow() - getCurrent_row()) + Math.abs(p.getCol() - getCurrent_col());
+            return ((distance == 3) && !(isInSameCol(p.getCol()) || isInSameRow(p.getRow())));
         }
         return false;
     }

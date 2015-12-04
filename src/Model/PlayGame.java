@@ -73,29 +73,29 @@ public class PlayGame {
                 if (i == 0 || i == 7) {
                     boolean isWhite = (i == 0 ? true : false);
                     if (j == 0 || j == 7) {
-                        new Rook(isWhite, i, j, chessBoard);
+                        new Rook(isWhite, new Position(i, j), chessBoard);
                     }
                     if (j == 6) {
-                        new Knight(isWhite, i, j, chessBoard);
+                        new Knight(isWhite, new Position(i, j), chessBoard);
                     }
                     if (j == 1 && isRegularChess) {
-                        new Knight(isWhite, i, j, chessBoard);
+                        new Knight(isWhite,new Position(i, j), chessBoard);
                     } else if (j == 1 && !isRegularChess) {
-                        new NightRider(isWhite, i, j, chessBoard);
+                        new NightRider(isWhite, new Position(i, j), chessBoard);
                     }
                     if (j == 2 || j == 5) {
-                        new Bishop(isWhite, i, j, chessBoard);
+                        new Bishop(isWhite, new Position(i, j), chessBoard);
                     }
                     if (j == 3) {
-                        new King(isWhite, i, j, chessBoard);
+                        new King(isWhite, new Position(i, j), chessBoard);
                     }
                     if (j == 4) {
-                        if (isRegularChess) new Queen(isWhite, i, j, chessBoard);
-                        else new Terrorize(isWhite, i, j, 0, chessBoard);
+                        if (isRegularChess) new Queen(isWhite, new Position(i, j), chessBoard);
+                        else new Terrorize(isWhite, new Position(i, j), 0, chessBoard);
                     }
                 } else if (i == 1 || i == 6) {
                     boolean isWhite = (i == 1 ? true : false);
-                    new Pawn(isWhite, i, j, chessBoard);
+                    new Pawn(isWhite, new Position(i, j), chessBoard);
                 } else {
                     chessBoard.ChessBoard[i][j] = null;
                 }

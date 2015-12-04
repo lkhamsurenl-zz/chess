@@ -21,15 +21,14 @@ public class Pawn extends ChessPiece {
     public Pawn() {
         super();
     }
-
-    public Pawn(boolean color, int x, int y, ChessBoard chessBoard) {
-        super(color, x, y, chessBoard);
+    public Pawn(boolean color, Position p, ChessBoard chessBoard) {
+        super(color, p, chessBoard);
         if (color) {
             // then it's white, so row==1
-            isInInitState = (x == 1);
+            isInInitState = (p.getRow() == 1);
         } else {
             // it's black, so row == 6
-            isInInitState = (x == 6);
+            isInInitState = (p.getRow() == 6);
         }
     }
     /***********************************************************************************************
@@ -47,31 +46,31 @@ public class Pawn extends ChessPiece {
      * Abstract methods inherited from the base class. See the Pieces.ChessPiece class for description
      * ********************************************************************************************/
 
-    // NOTE: this method called only when the destination is valid movement for the pawn, pawn is the only piece cannot eat thing front of it
-    // So we can safely assume that checking no obstacle diagonally and horizontally are enough, as they are the only possible movements for the pawn
-
+    // NOTE: this method called only when the destination is valid movement for the pawn, pawn is the only piece cannot
+    // eat thing front of it. So we can safely assume that checking no obstacle diagonally and horizontally are enough,
+    // as they are the only possible movements for the pawn
     @Override
-    public boolean isAnyObstacle(int x, int y) {
+    public boolean isAnyObstacle(Position p) {
         // For pawn, even there is opponent piece when moving forward, cannot eat it
-        if (isMovingForward(x, y) && !isAnyPieceInLocation(x, y)) {
+        if (isMovingForward(p) && !isAnyPieceInLocation(p)) {
             return false;
-        } else if (isJumpTwo(x, y) && !isAnyObstacleVertically(x, y) && !isAnyPieceInLocation(x, y)) {
+        } else if (isJumpTwo(p) && !isAnyObstacleVertically(p) && !isAnyPieceInLocation(p)) {
             return false;
         }
         // then it's trying to eat, so check no obstacle diagonally
-        else  if(isTryingEatingOther(x,y)) {
-            return isAnyObstacleDiagonally(x, y);
+        else  if(isTryingEatingOther(p)) {
+            return isAnyObstacleDiagonally(p);
         }
         return true;
     }
 
     @Override
-    public boolean isReachable(int x, int y) {
+    public boolean isReachable(Position p) {
         // Check the potential position
         // Figure out if it is valid in a boundary using isValidLocation and valid Movement
-        if (isValidLocation(x, y) && isLegalPawnMove(x, y)) {
+        if (isValidLocation(p) && isLegalPawnMove(p)) {
             // Check no alias piece in a way, by checking its alias is obstacling it
-            if (!isAnyObstacle(x, y)) {
+            if (!isAnyObstacle(p)) {
                 return true;
             }
         }
@@ -86,10 +85,10 @@ public class Pawn extends ChessPiece {
         ArrayList<Position> positions = new ArrayList<Position>();
         for (int i = -2; i < 3; i++) {
             for (int j = -1; j < 2; j++) {
+                Position p = new Position(getCurrent_row() + i, getCurrent_col() + j);
                 // valid movement method checks if there is any obstacle and movement is legal for the piece
-                if (isValidMovement(getCurrent_row() + i, getCurrent_col() + j)) {
-                    Position position = new Position(getCurrent_row() + i, getCurrent_col() + j);
-                    positions.add(position);
+                if (isValidMovement(p)) {
+                    positions.add(p);
                 }
             }
         }
@@ -104,39 +103,39 @@ public class Pawn extends ChessPiece {
     /*
     *  Figures out if it's a legal pawn move
     * */
-    public boolean isLegalPawnMove(int x, int y) {
-        if (!(x == getCurrent_row() && y == getCurrent_col())) {
-            return (isJumpTwo(x, y) || isMovingForward(x, y) || isTryingEatingOther(x, y));
+    public boolean isLegalPawnMove(Position p) {
+        if (!(p.getRow() == getCurrent_row() && p.getCol() == getCurrent_col())) {
+            return (isJumpTwo(p) || isMovingForward(p) || isTryingEatingOther(p));
         }
         return false;
     }
 
     //moving by one
-    boolean isMovingForward(int x, int y) {
-        if (isInSameCol(y)) {
+    boolean isMovingForward(Position p) {
+        if (isInSameCol(p.getCol())) {
             int indicator = getColor() ? 1 : -1;
             // if white, then should be moving up
             // else should be moving down
-            return indicator * (x - getCurrent_row()) == 1;
+            return indicator * (p.getRow() - getCurrent_row()) == 1;
         }
         return false;
     }
 
     // if there is non
-    public boolean isJumpTwo(int x, int y) {
+    public boolean isJumpTwo(Position p) {
         // it is first move and same column, then we know it cannot move back
-        if (isInInitState && isInSameCol(y)) {
+        if (isInInitState && isInSameCol(p.getCol())) {
             int indicator = getColor() ? 1: -1;
-            return indicator * ( x - getCurrent_row() ) == 2;
+            return indicator * (p.getRow() - getCurrent_row() ) == 2;
         }
         return false;
     }
 
     // Trying to eat other piece diagonally, so there has to be a opponent piece on that location
-    public boolean isTryingEatingOther(int x, int y) {
-        boolean isAnyOpponentPiece = !isAliasPieceInLocation(x, y) && isAnyPieceInLocation(x, y);
+    public boolean isTryingEatingOther(Position p) {
+        boolean isAnyOpponentPiece = !isAliasPieceInLocation(p) && isAnyPieceInLocation(p);
         int indicator = getColor() ? 1 : -1;
-        return ((x - getCurrent_row()) * indicator == 1) && (Math.abs(y - getCurrent_col()) == 1) && isAnyOpponentPiece;
+        return ((p.getRow() - getCurrent_row()) * indicator == 1) && (Math.abs(p.getCol() - getCurrent_col()) == 1) && isAnyOpponentPiece;
 
     }
 }
