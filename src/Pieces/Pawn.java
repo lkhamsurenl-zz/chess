@@ -113,7 +113,7 @@ public class Pawn extends ChessPiece {
     //moving by one
     boolean isMovingForward(Position p) {
         if (isInSameCol(p.getCol())) {
-            int indicator = getColor() ? 1 : -1;
+            int indicator = isWhite() ? 1 : -1;
             // if white, then should be moving up; else should be moving down
             return indicator * (p.getRow() - getRow()) == 1;
         }
@@ -123,7 +123,7 @@ public class Pawn extends ChessPiece {
     public boolean isJumpTwo(Position p) {
         // it is first move and same column, then we know it cannot move back
         if (isInInitState && isInSameCol(p.getCol())) {
-            int indicator = getColor() ? 1: -1;
+            int indicator = isWhite() ? 1: -1;
             return indicator * (p.getRow() - getRow() ) == 2;
         }
         return false;
@@ -132,7 +132,7 @@ public class Pawn extends ChessPiece {
     // Trying to eat other piece diagonally, so there has to be a opponent piece on that location
     public boolean isTryingEatingOther(Position p) {
         boolean isAnyOpponentPiece = !isAliasPieceInLocation(p) && isAnyPieceInLocation(p);
-        int indicator = getColor() ? 1 : -1;
+        int indicator = isWhite() ? 1 : -1;
         return ((p.getRow() - getRow()) * indicator == 1) && (Math.abs(p.getCol() - getCol()) == 1) && isAnyOpponentPiece;
 
     }

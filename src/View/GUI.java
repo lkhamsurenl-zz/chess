@@ -128,28 +128,28 @@ public class GUI extends JPanel{
         }
     }
     private void drawCustomPiece(Graphics g, ChessPiece piece,  int j, int k, int row, int col) {
-        if(piece instanceof Terrorize && piece.getColor()) {
+        if(piece instanceof Terrorize && piece.isWhite()) {
             g.drawImage(other_img, frame_margin_width + (col) * squareSize + terrorize_offset,
                                 frame_margin_height + (row) * squareSize + terrorize_offset ,
                                 frame_margin_width + (col + 1) * squareSize - terrorize_offset,
                                 frame_margin_height + (row + 1) * squareSize - terrorize_offset,
                                 206 * 5 - 15, 0, 206*6 -15, 338, this);
         }
-        else if(piece instanceof Terrorize && !piece.getColor()) {
+        else if(piece instanceof Terrorize && !piece.isWhite()) {
             g.drawImage(other_img, frame_margin_width + (col) * squareSize + terrorize_offset,
                                 frame_margin_height + (row) * squareSize + terrorize_offset ,
                                 frame_margin_width + (col + 1) * squareSize - terrorize_offset,
                                 frame_margin_height + (row + 1) * squareSize - terrorize_offset ,
                                 206 * 0  + 15, 338, 206 * 1  +15, 676, this);
         }
-        if(piece instanceof NightRider && piece.getColor()) {
+        if(piece instanceof NightRider && piece.isWhite()) {
             g.drawImage(other_img, frame_margin_width + (col) * squareSize + nightRider_offset,
                                 frame_margin_height + (row) * squareSize + nightRider_offset,
                                 frame_margin_width + (col + 1) * squareSize - nightRider_offset,
                                 frame_margin_height + (row + 1) * squareSize - nightRider_offset,
                                 206 * 2 , 0, 206 * 3 , 338, this);
         }
-        else if(piece instanceof NightRider && !piece.getColor()) {
+        else if(piece instanceof NightRider && !piece.isWhite()) {
             g.drawImage(other_img, frame_margin_width + (col) * squareSize + nightRider_offset,
                                 frame_margin_height + (row) * squareSize + nightRider_offset,
                                 frame_margin_width + (col + 1) * squareSize - nightRider_offset,
@@ -162,40 +162,40 @@ public class GUI extends JPanel{
     * */
     private Position getPicturePosition(ChessPiece piece) {
         int k = -1, j = -1;
-        if (piece instanceof Pawn && piece.getColor()) {
+        if (piece instanceof Pawn && piece.isWhite()) {
             j = 5;
             k = 0;
-        } else if (piece instanceof Pawn && !piece.getColor()) {
+        } else if (piece instanceof Pawn && !piece.isWhite()) {
             j = 5;
             k = 1;
-        } else if (piece instanceof Rook && piece.getColor()) {
+        } else if (piece instanceof Rook && piece.isWhite()) {
             j = 2;
             k = 0;
-        } else if (piece instanceof Rook && !piece.getColor()) {
+        } else if (piece instanceof Rook && !piece.isWhite()) {
             j = 2;
             k = 1;
-        } else if (piece instanceof Knight && piece.getColor()) {
+        } else if (piece instanceof Knight && piece.isWhite()) {
             j = 4;
             k = 0;
-        } else if (piece instanceof Knight && !piece.getColor()) {
+        } else if (piece instanceof Knight && !piece.isWhite()) {
             j = 4;
             k = 1;
-        } else if (piece instanceof Bishop && piece.getColor()) {
+        } else if (piece instanceof Bishop && piece.isWhite()) {
             j = 3;
             k = 0;
-        } else if (piece instanceof Bishop && !piece.getColor()) {
+        } else if (piece instanceof Bishop && !piece.isWhite()) {
             j = 3;
             k = 1;
-        } else if (piece instanceof Queen && piece.getColor()) {
+        } else if (piece instanceof Queen && piece.isWhite()) {
             j = 1;
             k = 0;
-        } else if (piece instanceof Queen && !piece.getColor()) {
+        } else if (piece instanceof Queen && !piece.isWhite()) {
             j = 1;
             k = 1;
-        } else if (piece instanceof King && piece.getColor()) {
+        } else if (piece instanceof King && piece.isWhite()) {
             j = 0;
             k = 0;
-        } else if (piece instanceof King && !piece.getColor()) {
+        } else if (piece instanceof King && !piece.isWhite()) {
             j = 0;
             k = 1;
         }

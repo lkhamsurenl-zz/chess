@@ -17,7 +17,7 @@ public abstract class ChessPiece {
      * *****************************************************************************
      */
     // 1 = white, 0=black
-    private boolean color;
+    private boolean isWhite;
     // Current position of the piece.
     private Position position;
     // chessBoard the piece is on.
@@ -29,7 +29,7 @@ public abstract class ChessPiece {
      * *****************************************************************************
      */
     public ChessPiece() {
-        this.color = true;
+        this.isWhite = true;
         this.position = new Position();
         // We also need Model.ChessBoard instance in which one it is referring.
         chessBoard = null;
@@ -37,7 +37,7 @@ public abstract class ChessPiece {
 
     // Set the piece
     public ChessPiece(boolean color, Position p, ChessBoard chessBoard) {
-        this.color = color;
+        this.isWhite = color;
         this.position = new Position(p);
         if (isValidLocation(p)) {
             // Initialize the piece position in the board.
@@ -64,9 +64,7 @@ public abstract class ChessPiece {
      * Public functions
      * *****************************************************************************
      */
-    public boolean getColor() {
-        return this.color;
-    }
+    public boolean isWhite() { return this.isWhite; }
 
     public int getRow() {
         return this.position.getRow();
@@ -88,7 +86,7 @@ public abstract class ChessPiece {
         this.position.setPosition(p.getRow(), p.getCol());
         // Update the position of the King, if the current piece is a king.
         if (this instanceof King) {
-            if (getColor()) {
+            if (isWhite()) {
                 chessBoard.white_king_position = this.position;
             } else {
                 chessBoard.black_king_position = this.position;
@@ -114,7 +112,7 @@ public abstract class ChessPiece {
             Position old_pos = new Position(this.position);
             ChessPiece temp_removed_piece = tryPosition(p);
             // Check if king is not threatened by any piece from other side, otherwise the movement is not valid.
-            King aliasKing = getColor() ? (King) chessBoard.ChessBoard[chessBoard.white_king_position.getRow()]
+            King aliasKing = isWhite() ? (King) chessBoard.ChessBoard[chessBoard.white_king_position.getRow()]
                                                                         [chessBoard.white_king_position.getCol()] :
                     (King) chessBoard.ChessBoard[chessBoard.black_king_position.getRow()]
                             [chessBoard.black_king_position.getCol()];
@@ -157,7 +155,7 @@ public abstract class ChessPiece {
     // Check if particular piece can directly eat opponent's king.
     public boolean canDirectlyEatKing() {
         // Get the opposite Pieces.King's location
-        Position p = this.color ? chessBoard.black_king_position : chessBoard.white_king_position;
+        Position p = this.isWhite ? chessBoard.black_king_position : chessBoard.white_king_position;
         if (this instanceof Pawn) {
             // Then we  have to check if it's actually can eat king different way than other pieces.
             if (((Pawn) this).isTryingEatingOther(p)) {
@@ -178,7 +176,7 @@ public abstract class ChessPiece {
     // Figures out if there is any piece in certain location, assume x,y is valid Location.
     public boolean isAliasPieceInLocation(Position p) {
         ChessPiece piece = chessBoard.ChessBoard[p.getRow()][p.getCol()];
-        return (piece != null && piece.color == this.getColor());
+        return (piece != null && piece.isWhite() == this.isWhite());
     }
 
     public boolean isAnyPieceInLocation(Position p) {

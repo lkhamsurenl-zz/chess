@@ -117,7 +117,7 @@ public class PlayGame {
     }
 
     public static void removePiece(ChessBoard chessBoard, ChessPiece piece) {
-        if (piece.getColor()) {
+        if (piece.isWhite()) {
             chessBoard.removedWhitePieces.add(piece);
         } else {
             chessBoard.removedBlackPieces.add(piece);

@@ -76,7 +76,7 @@ public class King extends ChessPiece {
             for (int j = 0; j < chessBoard.COL_BOUNDARY; j++) {
                 ChessPiece piece = chessBoard.ChessBoard[i][j];
                 // Check any of the opponent piece can eat king directly
-                if (piece != null && piece.getColor() != getColor() && piece.canDirectlyEatKing()) {
+                if (piece != null && piece.isWhite() != isWhite() && piece.canDirectlyEatKing()) {
                     return true;
                 }
             }

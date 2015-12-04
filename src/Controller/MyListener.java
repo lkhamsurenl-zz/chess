@@ -43,7 +43,7 @@ public class MyListener extends MouseInputAdapter{
             //where the move was made from
             int row = (mouseY - View.frame_margin_height) / GUI.squareSize;
             int col = (mouseX - View.frame_margin_width) / GUI.squareSize;
-            if(chessBoard.ChessBoard[row][col] != null && chessBoard.ChessBoard[row][col].getColor() == PlayGame.turn) {
+            if(chessBoard.ChessBoard[row][col] != null && chessBoard.ChessBoard[row][col].isWhite() == PlayGame.turn) {
                 pickedPiece = chessBoard.ChessBoard[row][col];
                 // get actual positions and initialize the position variable
                 GUI.positions = getPossiblePositions(pickedPiece);
@@ -70,7 +70,7 @@ public class MyListener extends MouseInputAdapter{
                     for(Position position: positions) {
                         if(position.getRow() == newRow && position.getCol() == newCol) {
                             // then we can move there
-                            if(pickedPiece.getColor() == PlayGame.turn) {
+                            if(pickedPiece.isWhite() == PlayGame.turn) {
                                 pickedPiece.moveTo(new Position(newRow, newCol));
                                 PlayGame.turn = PlayGame.turn?false:true;
                                 PlayGame.isGameFinished = chessBoard.isGameFinished();

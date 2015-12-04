@@ -59,7 +59,7 @@ public class ChessBoard {
                 for (int j = 0; j < COL_BOUNDARY; j++) {
                     ChessPiece piece = ChessBoard[i][j];
                     // there is at least one possible movement, then the game is not finished
-                    if (piece != null && piece.getColor() == color && piece.possibleMovements().size() != 0) {
+                    if (piece != null && piece.isWhite() == color && piece.possibleMovements().size() != 0) {
                         // we found at least one movement, which can get the king out of its check
                         // Because in my possible movements, I only consider ones, which leave king not in check
                         return false;

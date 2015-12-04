@@ -13,19 +13,19 @@ public class Player extends JPanel{
     * **************************************************************************************************************/
     private String name;
     private int score = 0;
-    private boolean color;
+    private boolean isWhite;
 
     /**************************************************************************************************************
      * Constructors
      * **************************************************************************************************************/
-    public Player(boolean color) {
-        this.color = color;
+    public Player(boolean isWhite) {
+        this.isWhite = isWhite;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if(color) g.drawString("Player 1", 75, 75);
+        if(isWhite) g.drawString("Player 1", 75, 75);
         else g.drawString("Player 2", 75, 75);
 
         g.drawString("Name: " + getName(), 50, 100);
@@ -41,8 +41,8 @@ public class Player extends JPanel{
     public void setName(String newName) {name = newName; }
     public int getScore() {return score;}
     public void setScore( int newScore) {score = newScore;}
-    public boolean getColor() {return color;}
-    public void setColor(boolean color) {this.color = color;}
+    public boolean isWhite() {return isWhite;}
+    public void setColor(boolean white) {this.isWhite = white;}
 
 }
 
