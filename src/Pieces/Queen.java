@@ -67,7 +67,7 @@ public class Queen extends ChessPiece {
 * Figures out if the move is a legal Pieces.Queen move
 * */
     private boolean isLegalQueenMove(Position p) {
-        if (!(p.getRow() == getCurrent_row() && p.getCol() == getCurrent_col())) {
+        if (!(p.getRow() == getRow() && p.getCol() == getCol())) {
             return (isInSameCol(p.getCol()) || isInSameRow(p.getRow()) || isInSameDiagonal(p));
         }
         return false;

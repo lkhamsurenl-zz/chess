@@ -92,7 +92,7 @@ public class BishopTest {
         black_pawn.setPosition(new Position(7, 7));
         black_king.setPosition(new Position(2, 4));
         ArrayList<Position> positions = white_bishop.possibleMovements();
-        //System.out.println(black_king.getCurrent_row() + ", " + black_king.getCurrent_col());
+        //System.out.println(black_king.getRow() + ", " + black_king.getCol());
 
         for (Position position : positions) {
             System.out.println("Row: " + position.getRow() + " , Col: " + position.getCol());

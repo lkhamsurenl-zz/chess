@@ -111,7 +111,7 @@ public class Terrorize extends ChessPiece {
     * Figures out if the move is a legal Pieces.Queen move
     * */
     private boolean isLegalQueenMove(Position p) {
-        if (!(p.getRow() == getCurrent_row() && p.getCol() == getCurrent_col())) {
+        if (!(p.getRow() == getRow() && p.getCol() == getCol())) {
             return (isInSameCol(p.getCol()) || isInSameRow(p.getRow()) || isInSameDiagonal(p));
         }
         return false;
@@ -124,8 +124,8 @@ public class Terrorize extends ChessPiece {
     * */
     private boolean isLegalKnightMove(Position p) {
         //cannot be in a same position
-        if (!(p.getRow() == getCurrent_row() && p.getCol() == getCurrent_col())) {
-            int distance = Math.abs(p.getRow() - getCurrent_row()) + Math.abs(p.getCol() - getCurrent_col());
+        if (!(p.getRow() == getRow() && p.getCol() == getCol())) {
+            int distance = Math.abs(p.getRow() - getRow()) + Math.abs(p.getCol() - getCol());
             return ((distance == 3) && !(isInSameCol(p.getCol()) || isInSameRow(p.getRow())));
         }
         return false;

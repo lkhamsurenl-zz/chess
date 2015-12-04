@@ -49,7 +49,7 @@ public class TerrorizeTest {
 
     @Test
     public void testPossibleMovements() throws Exception {
-        System.out.println(white_terrorize.getCurrent_row() + ", " + white_terrorize.getCurrent_col());
+        System.out.println(white_terrorize.getRow() + ", " + white_terrorize.getCol());
         black_terrorize.moveTo(new Position(0,7));
         // it should print out only knight movements
         ArrayList<Position> positions = black_terrorize.possibleMovements();

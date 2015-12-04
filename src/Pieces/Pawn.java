@@ -85,7 +85,7 @@ public class Pawn extends ChessPiece {
         ArrayList<Position> positions = new ArrayList<Position>();
         for (int i = -2; i < 3; i++) {
             for (int j = -1; j < 2; j++) {
-                Position p = new Position(getCurrent_row() + i, getCurrent_col() + j);
+                Position p = new Position(getRow() + i, getCol() + j);
                 // valid movement method checks if there is any obstacle and movement is legal for the piece
                 if (isValidMovement(p)) {
                     positions.add(p);
@@ -104,7 +104,7 @@ public class Pawn extends ChessPiece {
     *  Figures out if it's a legal pawn move
     * */
     public boolean isLegalPawnMove(Position p) {
-        if (!(p.getRow() == getCurrent_row() && p.getCol() == getCurrent_col())) {
+        if (!(p.getRow() == getRow() && p.getCol() == getCol())) {
             return (isJumpTwo(p) || isMovingForward(p) || isTryingEatingOther(p));
         }
         return false;
@@ -116,7 +116,7 @@ public class Pawn extends ChessPiece {
             int indicator = getColor() ? 1 : -1;
             // if white, then should be moving up
             // else should be moving down
-            return indicator * (p.getRow() - getCurrent_row()) == 1;
+            return indicator * (p.getRow() - getRow()) == 1;
         }
         return false;
     }
@@ -126,7 +126,7 @@ public class Pawn extends ChessPiece {
         // it is first move and same column, then we know it cannot move back
         if (isInInitState && isInSameCol(p.getCol())) {
             int indicator = getColor() ? 1: -1;
-            return indicator * (p.getRow() - getCurrent_row() ) == 2;
+            return indicator * (p.getRow() - getRow() ) == 2;
         }
         return false;
     }
@@ -135,7 +135,7 @@ public class Pawn extends ChessPiece {
     public boolean isTryingEatingOther(Position p) {
         boolean isAnyOpponentPiece = !isAliasPieceInLocation(p) && isAnyPieceInLocation(p);
         int indicator = getColor() ? 1 : -1;
-        return ((p.getRow() - getCurrent_row()) * indicator == 1) && (Math.abs(p.getCol() - getCurrent_col()) == 1) && isAnyOpponentPiece;
+        return ((p.getRow() - getRow()) * indicator == 1) && (Math.abs(p.getCol() - getCol()) == 1) && isAnyOpponentPiece;
 
     }
 }

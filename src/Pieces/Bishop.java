@@ -36,7 +36,7 @@ public class Bishop extends ChessPiece {
     public boolean isReachable(Position p) {
         // Check the potential position
         // Figure out if it is valid in a boundary using isValidLocation and valid Movement
-        return (!(p.getRow() == getCurrent_row() && p.getCol() == getCurrent_col())) && isValidLocation(p) &&
+        return (!(p.getRow() == getRow() && p.getCol() == getCol())) && isValidLocation(p) &&
                 isInSameDiagonal(p) && !isAnyObstacle(p);
     }
 
@@ -49,7 +49,7 @@ public class Bishop extends ChessPiece {
         for (int i = 1; i < ChessBoard.ROW_BOUNDARY; i++) {
             for (int iterator1 = -1; iterator1 < 2; iterator1 = iterator1 + 2) {
                 for (int iterator2 = -1; iterator2 < 2; iterator2 = iterator2 + 2) {
-                    Position p = new Position(getCurrent_row() + i * iterator1, getCurrent_col() + i * iterator2);
+                    Position p = new Position(getRow() + i * iterator1, getCol() + i * iterator2);
                     if (this.isValidMovement(p)) {
                         positions.add(p);
                     }

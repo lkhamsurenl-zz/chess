@@ -69,11 +69,11 @@ public abstract class ChessPiece {
         return this.color;
     }
 
-    public int getCurrent_row() {
+    public int getRow() {
         return this.position.getRow();
     }
 
-    public int getCurrent_col() {
+    public int getCol() {
         return this.position.getCol();
     }
 
@@ -135,7 +135,7 @@ public abstract class ChessPiece {
                  removedPiece = chessBoard.ChessBoard[p.getRow()][p.getCol()];
             }
             // Add it to the removed piece collector.
-            View.queryRemovedPiece(chessBoard, this, removedPiece, getCurrent_row(), getCurrent_col());
+            View.queryRemovedPiece(chessBoard, this, removedPiece, getRow(), getCol());
 
             setPosition(p);
             // Pawn is no longer in a initial state.
@@ -190,15 +190,15 @@ public abstract class ChessPiece {
     }
 
     public boolean isInSameCol(int y) {
-        return (this.getCurrent_col() == y);
+        return (this.getCol() == y);
     }
 
     public boolean isInSameRow(int x) {
-        return (this.getCurrent_row() == x);
+        return (this.getRow() == x);
     }
 
     public boolean isInSameDiagonal(Position p) {
-        return Math.abs(this.getCurrent_row() - p.getRow()) == Math.abs(this.getCurrent_col() - p.getCol());
+        return Math.abs(this.getRow() - p.getRow()) == Math.abs(this.getCol() - p.getCol());
     }
 
     /*
@@ -208,19 +208,20 @@ public abstract class ChessPiece {
     public boolean isAnyObstacleHorizontally(Position p) {
         if (isInSameRow(p.getRow())) {
             // Assume it is horizontally reachable.
-            int curr_col = this.getCurrent_col();
-            int curr_row = this.getCurrent_row();
+            int curr_col = this.getCol();
+            int curr_row = this.getRow();
             // Set the iterator to be whichever lower.
             int iterator = curr_col < p.getCol() ? 1 : -1;
             for (int j = 1; j <= Math.abs(p.getCol() - curr_col); j++) {
+                Position pos = new Position(curr_row, curr_col + j * iterator);
                 if (j == Math.abs(p.getCol() - curr_col)) {
                     // Check if there the destination piece has same color there.
-                    if (isAliasPieceInLocation(new Position(curr_row, curr_col + j * iterator))) {
+                    if (isAliasPieceInLocation(pos)) {
                         return true;
                     }
                 } else {
                     // It is not the last element, so we check if it's piece or not.
-                    if (isAnyPieceInLocation(new Position(curr_row, curr_col + j * iterator))) {
+                    if (isAnyPieceInLocation(pos)) {
                         return true;
                     }
                 }
@@ -233,19 +234,20 @@ public abstract class ChessPiece {
     public boolean isAnyObstacleVertically(Position p) {
         if (isInSameCol(p.getCol())) {
             // Assume it is vertically reachable.
-            int curr_col = this.getCurrent_col();
-            int curr_row = this.getCurrent_row();
+            int curr_col = this.getCol();
+            int curr_row = this.getRow();
             // Set the iterator to be whichever lower.
             int iterator = curr_row < p.getRow() ? 1 : -1;
             for (int i = 1; i <= Math.abs(p.getRow() - curr_row); i++) {
+                Position pos = new Position(curr_row + i * iterator, curr_col);
                 if (i == Math.abs(p.getRow() - curr_row)) {
                     // Check if there the destination piece has same color there.
-                    if (isAliasPieceInLocation(new Position(curr_row + i * iterator, curr_col))) {
+                    if (isAliasPieceInLocation(pos)) {
                         return true;
                     }
                 } else {
                     // It is not the last element, so we check if it's piece or not.
-                    if (isAnyPieceInLocation(new Position(curr_row + i * iterator, curr_col))) {
+                    if (isAnyPieceInLocation(pos)) {
                         return true;
                     }
                 }
@@ -257,20 +259,21 @@ public abstract class ChessPiece {
     // Figures out if there is any obstacle diagonally from current to destination to reach the given location.
     public boolean isAnyObstacleDiagonally(Position p) {
         if (isInSameDiagonal(p)) {
-            int curr_col = this.getCurrent_col();
-            int curr_row = this.getCurrent_row();
+            int curr_col = this.getCol();
+            int curr_row = this.getRow();
             // Set the iterator to be whichever lower.
             int iterator1 = curr_row < p.getRow() ? 1 : -1;
             int iterator2 = curr_col < p.getCol() ? 1 : -1;
             for (int i = 1; i <= Math.abs(p.getRow() - curr_row); i++) {
+                Position pos = new Position(curr_row + i * iterator1, curr_col + i * iterator2);
                 if ((i == Math.abs(p.getRow() - curr_row)) && (i == Math.abs(p.getCol() - curr_col))) {
                     // Check if there the destination piece has same color there.
-                    if (isAliasPieceInLocation(new Position(curr_row + i * iterator1, curr_col + i * iterator2))) {
+                    if (isAliasPieceInLocation(pos)) {
                         return true;
                     }
                 } else {
                     // It is not the last element, so we check if it's piece or not.
-                    if (isAnyPieceInLocation(new Position(curr_row + i * iterator1, curr_col + i * iterator2))) {
+                    if (isAnyPieceInLocation(pos)) {
                         return true;
                     }
                 }
@@ -294,12 +297,12 @@ public abstract class ChessPiece {
     * Put back the piece into its row, col position and put any piece previously been in the tried position.
     * */
     private void revertPosition(Position p, ChessPiece temp_removed_piece) {
-        int tried_row = this.getCurrent_row();
-        int tried_col = this.getCurrent_col();
+        int tried_row = this.getRow();
+        int tried_col = this.getCol();
         this.setPosition(p);
         if(temp_removed_piece!=null) {
             // Put this piece back in its location.
-            temp_removed_piece.setPosition(p);
+            temp_removed_piece.setPosition(new Position(tried_row, tried_col));
         }
     }
 }

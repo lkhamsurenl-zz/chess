@@ -40,13 +40,13 @@ public class NightRider extends ChessPiece{
     public boolean isAnyObstacle(Position p) {
         multiplicity = getMultiplicity(p);
         // steps of how much taking
-        int row_step = (p.getRow() - getCurrent_row())/ multiplicity;
-        int col_step = (p.getCol() - getCurrent_col()) / multiplicity;
+        int row_step = (p.getRow() - getRow())/ multiplicity;
+        int col_step = (p.getCol() - getCol()) / multiplicity;
         // it's assumed here that movement is valid.
         // we need to check movement validity through checking
         for(int i=1; i<= multiplicity; i++) {
             if(i != multiplicity) {
-                if(isAnyPieceInLocation(new Position(getCurrent_row() + i * row_step, getCurrent_col() + i*col_step))) {
+                if(isAnyPieceInLocation(new Position(getRow() + i * row_step, getCol() + i*col_step))) {
                     return true;
                 }
             }
@@ -87,8 +87,8 @@ public class NightRider extends ChessPiece{
     private int getMultiplicity(Position p){
         int mul;
         // absolute difference in col and row
-        int abs_row_diff = Math.abs(getCurrent_row() - p.getRow());
-        int abs_col_diff = Math.abs(getCurrent_col() - p.getCol());
+        int abs_row_diff = Math.abs(getRow() - p.getRow());
+        int abs_col_diff = Math.abs(getCol() - p.getCol());
         if(abs_row_diff < abs_col_diff) {
             mul= abs_col_diff  -  abs_row_diff;
         }
@@ -101,9 +101,9 @@ public class NightRider extends ChessPiece{
     * Figures out if the movement is legal piece movement
     * */
     private boolean isLegalNightRiderMove(Position p) {
-        if(!(p.getRow() == getCurrent_row() && p.getCol() == getCurrent_col())) {
-            int abs_row_diff = Math.abs(getCurrent_row() - p.getRow());
-            int abs_col_diff = Math.abs(getCurrent_col() - p.getCol());
+        if(!(p.getRow() == getRow() && p.getCol() == getCol())) {
+            int abs_row_diff = Math.abs(getRow() - p.getRow());
+            int abs_col_diff = Math.abs(getCol() - p.getCol());
             if(abs_row_diff < abs_col_diff) {
                 return (abs_col_diff == abs_row_diff *2);
             }

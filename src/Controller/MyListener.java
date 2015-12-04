@@ -48,7 +48,6 @@ public class MyListener extends MouseInputAdapter{
                 // get actual positions and initialize the position variable
                 GUI.positions = getPossiblePositions(pickedPiece);
             }
-
             jpanel.repaint();
         }
     }
@@ -58,7 +57,7 @@ public class MyListener extends MouseInputAdapter{
         if(isClickInBoundary(e.getX() ,e.getY())) {
             destMouseX = e.getX();
             destMouseY = e.getY();
-            //Mouse Button1 is pressed
+            // Mouse Button1 is pressed.
             if(e.getButton() == MouseEvent.BUTTON1) {
                 // those are the new row and col of the piece
                 int newRow = (destMouseY - View.frame_margin_height) / GUI.squareSize;

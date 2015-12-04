@@ -212,8 +212,8 @@ public class View extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Start of the game, there is no undo
                 if (lastMovedPiece != null) {
-                    int curr_row = lastMovedPiece.getCurrent_row();
-                    int curr_col = lastMovedPiece.getCurrent_col();
+                    int curr_row = lastMovedPiece.getRow();
+                    int curr_col = lastMovedPiece.getCol();
                     // Find the last movement
 
                     lastMovedPiece.setPosition(new Position(previous_row, previous_col));

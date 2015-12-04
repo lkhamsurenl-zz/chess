@@ -46,7 +46,7 @@ public class Knight extends ChessPiece {
         ArrayList<Position> positions = new ArrayList<Position>();
         for (int i = -2; i < 3; i++) {
             for (int j = -2; j < 3; j++) {
-                Position p = new Position(getCurrent_row() + i, getCurrent_col() + j);
+                Position p = new Position(getRow() + i, getCol() + j);
                 //we need to check if the movement can be made without losing the king
                 if (isValidMovement(p)) {
                     positions.add(p);
@@ -66,8 +66,8 @@ public class Knight extends ChessPiece {
     * */
     public boolean isLegalKnightMove(Position p) {
         //cannot be in a same position
-        if (!(p.getRow() == getCurrent_row() && p.getCol() == getCurrent_col())) {
-            int distance = Math.abs(p.getRow() - getCurrent_row()) + Math.abs(p.getCol() - getCurrent_col());
+        if (!(p.getRow() == getRow() && p.getCol() == getCol())) {
+            int distance = Math.abs(p.getRow() - getRow()) + Math.abs(p.getCol() - getCol());
             return ((distance == 3) && !(isInSameCol(p.getCol()) || isInSameRow(p.getRow())));
         }
         return false;

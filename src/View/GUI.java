@@ -89,12 +89,9 @@ public class GUI extends JPanel{
                 k = position.getCol();
                 if(isRegularPiece) {
                     drawRegularPiece(g, j, k, row, col);
-
                 }
                else {
                     drawCustomPiece(g, piece, j, k, row, col);
-                    // it's custom piece
-
                 }
             }
         }
@@ -112,28 +109,53 @@ public class GUI extends JPanel{
     private void drawRegularPiece(Graphics g, int j, int k, int row, int col) {
         if(j ==0) {
             // Pieces.King is slightly off
-            g.drawImage(img, frame_margin_width + king_width_offset + (col) * squareSize, frame_margin_height + (row) * squareSize,frame_margin_width + (col + 1) * squareSize, frame_margin_height + (row + 1) * squareSize,j * ROW_TIMES_COL, k * ROW_TIMES_COL, (j + 1) * ROW_TIMES_COL, (k + 1) * ROW_TIMES_COL, this);
+            g.drawImage(img, frame_margin_width + king_width_offset + (col) * squareSize,
+                             frame_margin_height + (row) * squareSize,frame_margin_width + (col + 1) * squareSize,
+                             frame_margin_height + (row + 1) * squareSize,j * ROW_TIMES_COL, k * ROW_TIMES_COL,
+                             (j + 1) * ROW_TIMES_COL, (k + 1) * ROW_TIMES_COL, this);
         }
         else if(j == 5) {
             // then it's pawn, so add some offset
-            g.drawImage(img, frame_margin_width + pawn_width_offset + (col) * squareSize, frame_margin_height + (row) * squareSize,frame_margin_width + (col + 1) * squareSize, frame_margin_height + (row + 1) * squareSize,j * ROW_TIMES_COL, k * ROW_TIMES_COL, (j + 1) * ROW_TIMES_COL, (k + 1) * ROW_TIMES_COL, this);
+            g.drawImage(img, frame_margin_width + pawn_width_offset + (col) * squareSize,
+                            frame_margin_height + (row) * squareSize,frame_margin_width + (col + 1) * squareSize,
+                            frame_margin_height + (row + 1) * squareSize,j * ROW_TIMES_COL, k * ROW_TIMES_COL,
+                            (j + 1) * ROW_TIMES_COL, (k + 1) * ROW_TIMES_COL, this);
         }
         else if (j != -1 && k != -1) {
-            g.drawImage(img, frame_margin_width + (col) * squareSize, frame_margin_height + (row) * squareSize,frame_margin_width + (col + 1) * squareSize, frame_margin_height + (row + 1) * squareSize,j * ROW_TIMES_COL, k * ROW_TIMES_COL, (j + 1) * ROW_TIMES_COL, (k + 1) * ROW_TIMES_COL, this);
+            g.drawImage(img, frame_margin_width + (col) * squareSize,
+                            frame_margin_height + (row) * squareSize,frame_margin_width + (col + 1) * squareSize,
+                            frame_margin_height + (row + 1) * squareSize,j * ROW_TIMES_COL, k * ROW_TIMES_COL,
+                            (j + 1) * ROW_TIMES_COL, (k + 1) * ROW_TIMES_COL, this);
         }
     }
     private void drawCustomPiece(Graphics g, ChessPiece piece,  int j, int k, int row, int col) {
         if(piece instanceof Terrorize && piece.getColor()) {
-            g.drawImage(other_img, frame_margin_width + (col) * squareSize + terrorize_offset, frame_margin_height + (row) * squareSize + terrorize_offset ,frame_margin_width + (col + 1) * squareSize - terrorize_offset, frame_margin_height + (row + 1) * squareSize - terrorize_offset ,206 * 5 - 15, 0, 206*6 -15, 338, this);
+            g.drawImage(other_img, frame_margin_width + (col) * squareSize + terrorize_offset,
+                                frame_margin_height + (row) * squareSize + terrorize_offset ,
+                                frame_margin_width + (col + 1) * squareSize - terrorize_offset,
+                                frame_margin_height + (row + 1) * squareSize - terrorize_offset,
+                                206 * 5 - 15, 0, 206*6 -15, 338, this);
         }
         else if(piece instanceof Terrorize && !piece.getColor()) {
-            g.drawImage(other_img, frame_margin_width + (col) * squareSize + terrorize_offset, frame_margin_height + (row) * squareSize + terrorize_offset ,frame_margin_width + (col + 1) * squareSize - terrorize_offset, frame_margin_height + (row + 1) * squareSize - terrorize_offset ,206 * 0  + 15, 338, 206 * 1  +15, 676, this);
+            g.drawImage(other_img, frame_margin_width + (col) * squareSize + terrorize_offset,
+                                frame_margin_height + (row) * squareSize + terrorize_offset ,
+                                frame_margin_width + (col + 1) * squareSize - terrorize_offset,
+                                frame_margin_height + (row + 1) * squareSize - terrorize_offset ,
+                                206 * 0  + 15, 338, 206 * 1  +15, 676, this);
         }
         if(piece instanceof NightRider && piece.getColor()) {
-            g.drawImage(other_img, frame_margin_width + (col) * squareSize + nightRider_offset, frame_margin_height + (row) * squareSize + nightRider_offset,frame_margin_width + (col + 1) * squareSize - nightRider_offset, frame_margin_height + (row + 1) * squareSize - nightRider_offset,206 * 2 , 0, 206 * 3 , 338, this);
+            g.drawImage(other_img, frame_margin_width + (col) * squareSize + nightRider_offset,
+                                frame_margin_height + (row) * squareSize + nightRider_offset,
+                                frame_margin_width + (col + 1) * squareSize - nightRider_offset,
+                                frame_margin_height + (row + 1) * squareSize - nightRider_offset,
+                                206 * 2 , 0, 206 * 3 , 338, this);
         }
         else if(piece instanceof NightRider && !piece.getColor()) {
-            g.drawImage(other_img, frame_margin_width + (col) * squareSize + nightRider_offset, frame_margin_height + (row) * squareSize + nightRider_offset,frame_margin_width + (col + 1) * squareSize - nightRider_offset, frame_margin_height + (row + 1) * squareSize - nightRider_offset,206 * 3, 338, 206*4 , 676, this);
+            g.drawImage(other_img, frame_margin_width + (col) * squareSize + nightRider_offset,
+                                frame_margin_height + (row) * squareSize + nightRider_offset,
+                                frame_margin_width + (col + 1) * squareSize - nightRider_offset,
+                                frame_margin_height + (row + 1) * squareSize - nightRider_offset,
+                                206 * 3, 338, 206*4 , 676, this);
         }
     }
     /*
@@ -178,8 +200,7 @@ public class GUI extends JPanel{
             j = 0;
             k = 1;
         }
-        Position position = new Position(j,k);
-        return position;
+        return new Position(j,k);
     }
     /*
        * Fills up the square with alternating color
@@ -190,25 +211,23 @@ public class GUI extends JPanel{
     private void drawBoard(Graphics g) {
         for (int i = 0; i < ROW_TIMES_COL; i += 2) {
             g.setColor(new Color(234,206,164));
-            g.fillRect(frame_margin_height + (i % _COL + (i / _ROW) % 2) * squareSize, frame_margin_height + (i / _ROW) * squareSize,
-                    squareSize, squareSize);
+            g.fillRect(frame_margin_height + (i % _COL + (i / _ROW) % 2) * squareSize,
+                        frame_margin_height + (i / _ROW) * squareSize, squareSize, squareSize);
             g.setColor(new Color(118,52,15));
             g.fillRect(frame_margin_height + ((i + 1) % _COL - ((i + 1) / _ROW) % 2) * squareSize,
-                    frame_margin_height +  ((i + 1) / _ROW) * squareSize, squareSize, squareSize);
+                        frame_margin_height +  ((i + 1) / _ROW) * squareSize, squareSize, squareSize);
         }
     }
 
     /*
-    * Highlights the possible movements
+    * Highlights the possible movements for a selected piece in the board.
     * */
     private void highlightPossiblePositions(Graphics g) {
-        for(Position position: positions) {
-            int row = position.getRow();
-            int col = position.getCol();
+        for(Position p: positions) {
+            int row = p.getRow();
+            int col = p.getCol();
             // transparent color
-            Color myColor = new Color(0,255,255, 50);
-            //Color myColor = new Color(51,51,255, 1);
-            g.setColor(myColor);
+            g.setColor(new Color(0,255,255, 50));
             // x, y, width, height
             g.fillRect(frame_margin_width + col * squareSize, frame_margin_height + row * squareSize,
                     squareSize, squareSize);

@@ -48,15 +48,15 @@ public class Rook extends ChessPiece {
     public ArrayList<Position> possibleMovements() {
         ArrayList<Position> positions = new ArrayList<Position>();
         for (int i = 0; i < chessBoard.ROW_BOUNDARY; i++) {
-            Position p = new Position(i, getCurrent_col());
-            if (isValidMovement(p) && i != getCurrent_row()) {
+            Position p = new Position(i, getCol());
+            if (isValidMovement(p) && i != getRow()) {
                 positions.add(p);
             }
         }
 
         for (int j = 0; j < chessBoard.COL_BOUNDARY; j++) {
-            Position p = new Position(getCurrent_row(), j);
-            if (isValidMovement(p) && j != getCurrent_col()) {
+            Position p = new Position(getRow(), j);
+            if (isValidMovement(p) && j != getCol()) {
                 positions.add(p);
             }
         }
@@ -73,7 +73,7 @@ public class Rook extends ChessPiece {
     * Figures out if the move is a legal rook move by checking if in same row or column
     * */
     public boolean isLegalRookMove(Position p) {
-        if (!(p.getRow() == getCurrent_row() && p.getCol() == getCurrent_col())) {
+        if (!(p.getRow() == getRow() && p.getCol() == getCol())) {
             return (isInSameCol(p.getCol()) || isInSameRow(p.getRow()));
         }
         return false;

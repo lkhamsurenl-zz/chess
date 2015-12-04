@@ -82,7 +82,7 @@ public class KnightTest extends TestCase {
         TestCase.assertNotNull(chessBoard.ChessBoard[1][4]);
         //assertEquals(white_knight.isValidMovement(2, 2), false);
         black_bishop.setPosition(new Position(2, 3));
-        System.out.println(black_bishop.getCurrent_row() + ", " + black_bishop.getCurrent_col());
+        System.out.println(black_bishop.getRow() + ", " + black_bishop.getCol());
         TestCase.assertTrue(white_knight.isValidMovement(new Position(3, 3)));
     }
 

@@ -48,9 +48,9 @@ public class King extends ChessPiece {
     *
     * */
     public boolean isLegalKingMove(Position p) {
-        if (!(p.getRow() == getCurrent_row() && p.getCol() == getCurrent_col())) {
-            return (p.getRow() != getCurrent_row() || p.getCol() != getCurrent_col()) && (Math.abs(this.getCurrent_row() - p.getRow()) < 2 &&
-                    Math.abs(this.getCurrent_col() - p.getCol()) < 2);
+        if (!(p.getRow() == getRow() && p.getCol() == getCol())) {
+            return (p.getRow() != getRow() || p.getCol() != getCol()) && (Math.abs(this.getRow() - p.getRow()) < 2 &&
+                    Math.abs(this.getCol() - p.getCol()) < 2);
         }
         return false;
     }
@@ -63,7 +63,7 @@ public class King extends ChessPiece {
         ArrayList<Position> positions = new ArrayList<Position>();
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
-                Position p = new Position(getCurrent_row() + i, getCurrent_col() + j);
+                Position p = new Position(getRow() + i, getCol() + j);
                 if ((i != 0 || j != 0) && isValidMovement(p)) {
                     positions.add(p);
                 }
